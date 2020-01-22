@@ -1,0 +1,30 @@
+{
+    "leftDrive": [
+        {
+            "type": "SparkMax",
+            "port": 1
+        },
+        {
+            "type": "SparkMax",
+            "port": 4
+        },
+        {
+            "type": "SparkMax",
+            "port": 3
+        }
+    ],
+    "rightDrive": [
+        {
+            "type": "SparkMax",
+            "port": 2
+        },
+        {
+            "type": "SparkMax",
+            "port": 5
+        },
+        {
+            "type": "SparkMax",
+            "port": 6
+        }
+    ]
+}
