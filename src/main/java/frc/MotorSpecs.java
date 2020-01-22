@@ -2,9 +2,11 @@ package frc;
 
 import java.util.Arrays;
 
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj.SpeedController;
@@ -16,6 +18,21 @@ public class MotorSpecs {
     public String type;
     public int port;
     public boolean inverted;
+
+    private static WPI_VictorSPX victorSpxSetup(WPI_VictorSPX motor) {
+        motor.setNeutralMode(NeutralMode.Brake);
+        return motor;
+    }
+
+    private static WPI_TalonSRX talonSrxSetup(WPI_TalonSRX motor) {
+        motor.setNeutralMode(NeutralMode.Brake);
+        return motor;
+    }
+
+    private static CANSparkMax sparkMaxSetup(CANSparkMax motor) {
+        motor.setIdleMode(IdleMode.kBrake);
+        return motor;
+    }
 
     @Override
     public String toString() {
@@ -40,13 +57,13 @@ public class MotorSpecs {
             ret = new VictorSP(port);
             break;
         case "VictorSPX":
-            ret = new WPI_VictorSPX(port);
+            ret = victorSpxSetup(new WPI_VictorSPX(port));
             break;
         case "TalonSRX":
-            ret = new WPI_TalonSRX(port);
+            ret = talonSrxSetup(new WPI_TalonSRX(port));
             break;
         case "SparkMax":
-            ret = new CANSparkMax(port, MotorType.kBrushless);
+            ret = sparkMaxSetup(new CANSparkMax(port, MotorType.kBrushless));
             break;
         case "Dummy":
             ret = new DummySpeedController();
@@ -60,7 +77,7 @@ public class MotorSpecs {
 
     public WPI_TalonSRX makeTalonSRX() {
         if (type.equals("TalonSRX")) {
-            return setInverted(new WPI_TalonSRX(port), inverted);
+            return setInverted(talonSrxSetup(new WPI_TalonSRX(port)), inverted);
         } else {
             throw new MotorError("not a Talon SRX");
         }
@@ -69,10 +86,10 @@ public class MotorSpecs {
     public void makeTalonFollower(WPI_TalonSRX main) {
         switch (type) {
         case "VictorSPX":
-            setInverted(new WPI_VictorSPX(port), inverted).follow(main);
+            setInverted(victorSpxSetup(new WPI_VictorSPX(port)), inverted).follow(main);
             break;
         case "TalonSRX":
-            setInverted(new WPI_TalonSRX(port), inverted).follow(main);
+            setInverted(talonSrxSetup(new WPI_TalonSRX(port)), inverted).follow(main);
             break;
         default:
             throw new MotorError("not a Victor SPX or Talon SRX");
@@ -81,7 +98,7 @@ public class MotorSpecs {
 
     public CANSparkMax makeSparkMax() {
         if (type.equals("SparkMax")) {
-            return setInverted(new CANSparkMax(port, MotorType.kBrushless), inverted);
+            return setInverted(sparkMaxSetup(new CANSparkMax(port, MotorType.kBrushless)), inverted);
         } else {
             throw new MotorError("not a SPARK MAX");
         }
