@@ -12,6 +12,6 @@ public class JoystickDriveCommand extends CommandBase {
 
     @Override
     public void execute() {
-        drive.arcadeDrive(-drive.container.pilot.getRawAxis(1), drive.container.pilot.getRawAxis(4));
+        drive.arcadeDrive(drive.container.pilot.getRawAxis(1), -drive.container.pilot.getRawAxis(4));
     }
 }

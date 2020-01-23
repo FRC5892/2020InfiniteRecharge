@@ -31,6 +31,8 @@ public class MotorSpecs {
 
     private static CANSparkMax sparkMaxSetup(CANSparkMax motor) {
         motor.setIdleMode(IdleMode.kBrake);
+        motor.setSmartCurrentLimit(40);
+        motor.setOpenLoopRampRate(0.5);
         return motor;
     }
 
