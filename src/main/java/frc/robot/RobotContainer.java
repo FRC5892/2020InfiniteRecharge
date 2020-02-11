@@ -17,6 +17,7 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.subsystems.drive.DriveSubsystem;
+import frc.robot.subsystems.wheel.WheelSubsystem;
 
 /**
  * This class is where the bulk of the robot should be declared.  Since Command-based is a
@@ -32,6 +33,7 @@ public class RobotContainer {
 
   // The robot's subsystems and commands are defined here...
   public final DriveSubsystem drive;
+  public final WheelSubsystem wheel;
 
   /**
    * The container for the robot.  Contains subsystems, OI devices, and commands.
@@ -47,6 +49,7 @@ public class RobotContainer {
     copilot = new Joystick(1);
 
     drive = new DriveSubsystem(map, this);
+    wheel = new WheelSubsystem(map, this);
 
     // Configure the button bindings
     configureButtonBindings();

@@ -26,5 +26,12 @@
             "type": "SparkMax",
             "port": 6
         }
-    ]
+    ],
+    "wheelManipulator": [
+        {
+            "type": "VictorSP",
+            "port": 1
+        }
+    ],
+    "wheelPiston": [[0, 1]]
 }
