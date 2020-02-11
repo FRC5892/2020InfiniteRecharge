@@ -148,7 +148,7 @@ public class MotorSpecs {
     public static CANSparkMax makeSparkMaxes(MotorSpecs[] specs) {
         var main = specs[0].makeSparkMax();
         for (var i = 1; i < specs.length; i++) {
-            specs[i].makeSparkMax().follow(main, specs[i].inverted);
+            specs[i].makeSparkMax().follow(main, specs[i].inverted ^ specs[0].inverted);
         }
         return main;
     }
