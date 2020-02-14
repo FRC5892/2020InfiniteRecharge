@@ -12,9 +12,9 @@ public class JoystickIntakeCommand extends CommandBase {
 
     @Override
     public void execute() {
-        var rollerSpeed = intake.container.pilot.getRawAxis(3);
+        var rollerSpeed = intake.container.pilot.getRawAxis(3) - intake.container.pilot.getRawAxis(2);
         intake.setRollers(rollerSpeed);
-        if (rollerSpeed > 0.3) {
+        if (rollerSpeed > 0.1) {
             intake.extendPistons();
         } else if (intake.container.pilot.getRawButton(6)) {
             intake.retractPistons();
