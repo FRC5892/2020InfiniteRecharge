@@ -27,13 +27,19 @@
             "port": 6
         }
     ],
-    "wheelManipulator": [
+    "wheelManipulator": [],
+    "wheelPiston": [[0, 1]],
+    "intakeRollers": [
         {
             "type": "VictorSP",
-            "port": 1
+            "port": 1,
+            "inverted": true
+        },
+        {
+            "type": "VictorSP",
+            "port": 0,
+            "inverted": true
         }
     ],
-    "wheelPiston": [[0, 1]],
-    "intakeRollers": [],
-    "intakePistons": []
+    "intakePistons": [[2, 3]]
 }

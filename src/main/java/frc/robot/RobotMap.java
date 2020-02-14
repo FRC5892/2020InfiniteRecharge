@@ -11,4 +11,9 @@ public class RobotMap {
 
     public MotorSpecs[] intakeRollers;
     public int[][] intakePistons;
+
+    public MotorSpecs[] climbArm;
+    public MotorSpecs[] climbWinch;
+    public int[][] climbPiston;
+
 }
