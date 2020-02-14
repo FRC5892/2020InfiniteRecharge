@@ -20,6 +20,11 @@ public class DriveSubsystem extends SubsystemBase {
     }
 
     public void arcadeDrive(double xSpeed, double zRotation) {
-        drive.arcadeDrive(xSpeed, zRotation);
+        arcadeDrive(xSpeed, zRotation, 1);
+    }
+
+    public void arcadeDrive(double xSpeed, double zRotation, double scaleFactor) {
+        drive.arcadeDrive(Math.copySign(xSpeed * xSpeed, xSpeed) * scaleFactor,
+                Math.copySign(zRotation * zRotation, zRotation) * scaleFactor, false);
     }
 }

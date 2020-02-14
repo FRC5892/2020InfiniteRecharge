@@ -24,6 +24,6 @@ public class JoystickDriveCommand extends CommandBase {
             toggleLastFrame = false;
         }
         var factor = slowMode ? SLOW_SPEED : FAST_SPEED;
-        drive.arcadeDrive(factor * drive.container.pilot.getRawAxis(1), -factor * drive.container.pilot.getRawAxis(4));
+        drive.arcadeDrive(drive.container.pilot.getRawAxis(1), -drive.container.pilot.getRawAxis(4), factor);
     }
 }

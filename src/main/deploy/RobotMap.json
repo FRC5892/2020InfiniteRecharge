@@ -41,5 +41,8 @@
             "inverted": true
         }
     ],
-    "intakePistons": [[2, 3]]
+    "intakePistons": [[2, 3]],
+    "climbArm": [],
+    "climbWinch": [],
+    "climbPiston": []
 }
