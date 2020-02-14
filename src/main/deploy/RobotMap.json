@@ -33,5 +33,7 @@
             "port": 1
         }
     ],
-    "wheelPiston": [[0, 1]]
+    "wheelPiston": [[0, 1]],
+    "intakeRollers": [],
+    "intakePistons": []
 }

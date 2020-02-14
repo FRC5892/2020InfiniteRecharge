@@ -8,4 +8,7 @@ public class RobotMap {
 
     public MotorSpecs[] wheelManipulator;
     public int[][] wheelPiston;
+
+    public MotorSpecs[] intakeRollers;
+    public int[][] intakePistons;
 }
