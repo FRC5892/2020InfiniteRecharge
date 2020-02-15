@@ -72,19 +72,21 @@ public class WheelColorHandler {
         return WheelColor.forChar(DriverStation.getInstance().getGameSpecificMessage().charAt(0));
     }
 
-    private static final int[] dttRets = { 0, -1, 1, 1 };
+    public static enum TurnBehavior {
+        CLOCKWISE, COUNTERCLOCKWISE, CONTINUE, STOP;
+    }
 
-    /**
-     * where 1 is clockwise
-     */
-    public int directionToTurn() {
+    private static final TurnBehavior[] dttRets = { TurnBehavior.STOP, TurnBehavior.COUNTERCLOCKWISE,
+            TurnBehavior.CLOCKWISE, TurnBehavior.CLOCKWISE };
+
+    public TurnBehavior directionToTurn() {
         var want = colorTheyWant();
         if (want == WheelColor.UNKNOWN) {
-            return 0;
+            return TurnBehavior.STOP;
         }
         var see = colorTheySee();
         if (see == WheelColor.UNKNOWN) {
-            return 1;
+            return TurnBehavior.CONTINUE;
         }
 
         var index = (want.ordinal() - see.ordinal() + 4) % 4;

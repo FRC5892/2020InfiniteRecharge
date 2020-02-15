@@ -29,6 +29,7 @@
     ],
     "wheelManipulator": [],
     "wheelPiston": [[0, 1]],
+    "wheelCounter": 0,
     "intakeRollers": [
         {
             "type": "VictorSP",
