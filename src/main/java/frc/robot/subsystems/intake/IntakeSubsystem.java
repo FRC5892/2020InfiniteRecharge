@@ -14,8 +14,9 @@ public class IntakeSubsystem extends SubsystemBase {
 
     public IntakeSubsystem(RobotMap map, RobotContainer container) {
         this.container = container;
-        rollers = MotorSpecs.makeSpeedControllers(map.intakeRollers);
+        rollers = MotorSpecs.makeSpeedControllers(map.intakeRollers, "Rollers", this);
         pistons = SolenoidGroup.forPorts(map.intakePistons);
+        addChild("Pistons", pistons);
         setDefaultCommand(new JoystickIntakeCommand(this));
     }
 

@@ -16,8 +16,9 @@ public class WheelSubsystem extends SubsystemBase {
     public WheelSubsystem(RobotMap map, RobotContainer container) {
         this.container = container;
         colors = new WheelColorHandler();
-        manipulator = MotorSpecs.makeSpeedControllers(map.wheelManipulator);
+        manipulator = MotorSpecs.makeSpeedControllers(map.wheelManipulator, "Manipulator", this);
         piston = SolenoidGroup.forPorts(map.wheelPiston);
+        addChild("Piston", piston);
 
         setDefaultCommand(new JoystickWheelCommand(this));
     }

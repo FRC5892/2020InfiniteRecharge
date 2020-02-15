@@ -4,49 +4,81 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.Sendable;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
+import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
+import edu.wpi.first.wpilibj.smartdashboard.SendableRegistry;
 
-public class SolenoidGroup {
+public class SolenoidGroup implements Sendable {
     private final Solenoid[] singleSolenoids;
     private final DoubleSolenoid[] doubleSolenoids;
 
+    private boolean on = false;
+    private Value value = Value.kOff;
+
+    private static int instances;
+
     public SolenoidGroup(Solenoid[] singleSolenoids, DoubleSolenoid[] doubleSolenoids) {
         this.singleSolenoids = singleSolenoids;
+        for (var sol : singleSolenoids) {
+            SendableRegistry.addChild(this, sol);
+        }
         this.doubleSolenoids = doubleSolenoids;
+        for (var sol : doubleSolenoids) {
+            SendableRegistry.addChild(this, sol);
+        }
+        SendableRegistry.addLW(this, "tSolenoidGroup", ++instances);
     }
 
     public static SolenoidGroup forPorts(int[]... ports) {
         return new Factory().addPorts(ports).construct();
     }
 
-    public void set(boolean on) {
+    protected void setSingles(boolean on) {
         for (var sol : singleSolenoids) {
             sol.set(on);
         }
+        this.on = on;
+    }
+
+    protected void setDoubles(Value value) {
         for (var sol : doubleSolenoids) {
-            sol.set(on ? Value.kForward : Value.kReverse);
+            sol.set(value);
         }
+        this.value = value;
+    }
+
+    public boolean getOn() {
+        return on;
+    }
+
+    public Value getValue() {
+        return value;
+    }
+
+    public void reset() {
+        setSingles(false);
+        setDoubles(Value.kOff);
+    }
+
+    public void set(boolean on) {
+        setSingles(on);
+        setDoubles(on ? Value.kForward : Value.kReverse);
     }
 
     public void set(Value value) {
         switch (value) {
         case kForward:
-            for (var sol : singleSolenoids) {
-                sol.set(true);
-            }
+            setSingles(true);
             break;
         case kReverse:
-            for (var sol : singleSolenoids) {
-                sol.set(false);
-            }
+            setSingles(false);
             break;
         case kOff:
             break;
         }
-        for (var sol : doubleSolenoids) {
-            sol.set(value);
-        }
+        setDoubles(value);
     }
 
     public void close() {
@@ -55,6 +87,31 @@ public class SolenoidGroup {
         }
         for (var sol : doubleSolenoids) {
             sol.close();
+        }
+    }
+
+    @Override
+    public void initSendable(SendableBuilder builder) {
+        if (doubleSolenoids.length != 0) {
+            // based on DoubleSolenoid.initSendable
+            builder.setSmartDashboardType("Double Solenoid");
+            builder.setActuator(true);
+            builder.setSafeState(this::reset);
+            builder.addStringProperty("Value", () -> getValue().name().substring(1), value -> {
+                if ("Forward".equals(value)) {
+                    set(Value.kForward);
+                } else if ("Reverse".equals(value)) {
+                    set(Value.kReverse);
+                } else {
+                    set(Value.kOff);
+                }
+            });
+        } else {
+            // based on Solenoid.initSendable
+            builder.setSmartDashboardType("Solenoid");
+            builder.setActuator(true);
+            builder.setSafeState(this::reset);
+            builder.addBooleanProperty("Value", this::getOn, this::set);
         }
     }
 

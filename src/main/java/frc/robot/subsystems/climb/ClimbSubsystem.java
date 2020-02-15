@@ -15,9 +15,10 @@ public class ClimbSubsystem extends SubsystemBase {
 
     public ClimbSubsystem(RobotMap map, RobotContainer container) {
         this.container = container;
-        arm = MotorSpecs.makeSpeedControllers(map.climbArm);
-        winch = MotorSpecs.makeSpeedControllers(map.climbWinch);
+        arm = MotorSpecs.makeSpeedControllers(map.climbArm, "Arm", this);
+        winch = MotorSpecs.makeSpeedControllers(map.climbWinch, "Winch", this);
         armPiston = SolenoidGroup.forPorts(map.climbPiston);
+        addChild("Arm Piston", armPiston);
         setDefaultCommand(new JoystickClimbCommand(this));
 
     }
