@@ -10,6 +10,11 @@ import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
 import edu.wpi.first.wpilibj.smartdashboard.SendableRegistry;
 
+/**
+ * Allows multiple {@link Solenoid} and {@link DoubleSolenoid} objects to be linked together.
+ * 
+ * @author Kai Page
+ */
 public class SolenoidGroup implements Sendable {
     private final Solenoid[] singleSolenoids;
     private final DoubleSolenoid[] doubleSolenoids;
@@ -19,6 +24,12 @@ public class SolenoidGroup implements Sendable {
 
     private static int instances;
 
+    /**
+     * Create a new SolenoidGroup with the provided Solenoids.
+     * 
+     * @param singleSolenoids The {@link Solenoid}s to add
+     * @param doubleSolenoids The {@link DoubleSolenoid}s to add
+     */
     public SolenoidGroup(Solenoid[] singleSolenoids, DoubleSolenoid[] doubleSolenoids) {
         this.singleSolenoids = singleSolenoids;
         for (var sol : singleSolenoids) {
@@ -31,6 +42,12 @@ public class SolenoidGroup implements Sendable {
         SendableRegistry.addLW(this, "tSolenoidGroup", ++instances);
     }
 
+    /**
+     * Create a new SolenoidGroup with solenoids on the given ports.
+     * 
+     * @param ports The ports the solenoids are on
+     * @see {@link Factory.addPorts}
+     */
     public static SolenoidGroup forPorts(int[]... ports) {
         return new Factory().addPorts(ports).construct();
     }
@@ -49,24 +66,43 @@ public class SolenoidGroup implements Sendable {
         this.value = value;
     }
 
+    /**
+     * @return The state of the single {@link Solenoid}s in the group
+     */
     public boolean getOn() {
         return on;
     }
 
+    /**
+     * @return The state of the {@link DoubleSolenoid}s in the group
+     */
     public Value getValue() {
         return value;
     }
 
+    /**
+     * Disables all outputs from the PCM associated with this group.
+     */
     public void reset() {
         setSingles(false);
         setDoubles(Value.kOff);
     }
 
+    /**
+     * Extends or retracts all solenoids in the group.
+     * 
+     * @param on Extends (kForward) if true, retracts (kReverse) if false
+     */
     public void set(boolean on) {
         setSingles(on);
         setDoubles(on ? Value.kForward : Value.kReverse);
     }
 
+    /**
+     * Approximates the appropriate behavior for all solenoids in the group.
+     * 
+     * @param value Extends single solenoids for kForward, retracts for kReverse, leaves alone for kOff
+     */
     public void set(Value value) {
         switch (value) {
         case kForward:
@@ -115,6 +151,9 @@ public class SolenoidGroup implements Sendable {
         }
     }
 
+    /**
+     * Allows a {@link SolenoidGroup} to be configured before it is constructed.
+     */
     public static class Factory {
         private final ArrayList<Solenoid> singleSolenoids = new ArrayList<>();
         private final ArrayList<DoubleSolenoid> doubleSolenoids = new ArrayList<>();
@@ -133,6 +172,13 @@ public class SolenoidGroup implements Sendable {
             return this;
         }
 
+        /**
+         * Adds the solenoids on the given ports to the group.
+         * 
+         * @param ports For each subarray, it adds a single solenoid if its length is 1
+         * and a double solenoid if its length is 2.
+         * @throws SolenoidGroupFactoryException for any other subarray length 
+         */
         Factory addPorts(int[]... ports) {
             for (var p : ports) {
                 if (p.length == 1) {
