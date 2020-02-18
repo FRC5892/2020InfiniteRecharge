@@ -9,14 +9,21 @@ public class WheelPositionControl extends CommandBase {
     private final WheelSubsystem wheel;
     private final double speed;
 
-    private boolean clockwiseLast = true;
-    private boolean windingDownLast = false;
+    private boolean clockwiseLast;
+    private boolean windingDownLast;
     private double windingDownTimestamp;
 
     public WheelPositionControl(WheelSubsystem wheel, double speed) {
         this.wheel = wheel;
         this.speed = speed;
         addRequirements(wheel);
+    }
+
+    @Override
+    public void initialize() {
+        clockwiseLast = true;
+        windingDownLast = false;
+        windingDownTimestamp = 0;
     }
 
     @Override
