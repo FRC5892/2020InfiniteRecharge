@@ -40,12 +40,10 @@ public class Limelight {
     }
 
     public enum LEDMode {
-        DEFAULT(0),
-        OFF(1),
-        BLINK(2),
-        ON(3);
+        DEFAULT(0), OFF(1), BLINK(2), ON(3);
 
         private double value;
+
         LEDMode(double value) {
             this.value = value;
         }
@@ -61,5 +59,14 @@ public class Limelight {
 
     public void setPipeline(int pipeline) {
         this.pipeline.setDouble(pipeline);
+    }
+
+    // FIXME: mounting measurements are guesses, take actual measurements
+    private static final double MOUNTING_ANGLE = 30; // degrees
+    private static final double MOUNTING_HEIGHT = 24; // inches
+    private static final double TARGET_HEIGHT = 98.25; // inches
+
+    public double estimateTargetDistance() {
+        return (TARGET_HEIGHT - MOUNTING_HEIGHT) / Math.tan(Math.toRadians(yOffset() + MOUNTING_ANGLE));
     }
 }
