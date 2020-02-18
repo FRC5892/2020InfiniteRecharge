@@ -18,6 +18,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import frc.Limelight;
 import frc.robot.subsystems.climb.ClimbSubsystem;
 import frc.robot.subsystems.drive.DriveSubsystem;
 import frc.robot.subsystems.intake.IntakeSubsystem;
@@ -42,6 +43,8 @@ public class RobotContainer {
   public final IntakeSubsystem intake;
   public final ClimbSubsystem climb;
 
+  public final Limelight limelight;
+
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
@@ -59,6 +62,8 @@ public class RobotContainer {
     wheel = new WheelSubsystem(map, this);
     intake = new IntakeSubsystem(map, this);
     climb = new ClimbSubsystem(map, this);
+
+    limelight = new Limelight();
 
     // Configure the button bindings
     configureButtonBindings();
