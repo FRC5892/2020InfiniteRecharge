@@ -24,6 +24,7 @@ import frc.robot.subsystems.climb.ClimbSubsystem;
 import frc.robot.subsystems.drive.DriveSubsystem;
 import frc.robot.subsystems.intake.IntakeSubsystem;
 import frc.robot.subsystems.intake.JoystickIntakeCommand;
+import frc.robot.subsystems.shooter.ShooterSubsystem;
 import frc.robot.subsystems.wheel.WheelSubsystem;
 
 /**
@@ -41,10 +42,11 @@ public class RobotContainer {
 
   // The robot's subsystems and commands are defined here...
   public final DriveSubsystem drive;
-  public final WheelSubsystem wheel;
   public final IntakeSubsystem intake;
-  public final ClimbSubsystem climb;
   public final AccumulatorSubsystem accumulator;
+  public final ShooterSubsystem shooter;
+  public final WheelSubsystem wheel;
+  public final ClimbSubsystem climb;
 
   public final Limelight limelight;
 
@@ -62,10 +64,11 @@ public class RobotContainer {
     copilot = new Joystick(1);
 
     drive = new DriveSubsystem(map, this);
-    wheel = new WheelSubsystem(map, this);
     intake = new IntakeSubsystem(map, this);
-    climb = new ClimbSubsystem(map, this);
     accumulator = new AccumulatorSubsystem(map, this);
+    shooter = new ShooterSubsystem(map, this);
+    wheel = new WheelSubsystem(map, this);
+    climb = new ClimbSubsystem(map, this);
 
     intake.setDefaultCommand(new JoystickIntakeCommand(intake, accumulator));
 
