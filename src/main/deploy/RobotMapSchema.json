@@ -1,0 +1,131 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema",
+    "$id": "http://team5892.com/schemas/2020/RobotMap01.json",
+    "definitions": {
+        "MotorSpecs": {
+            "type": "object",
+            "properties": {
+                "type": {
+                    "type": "string",
+                    "enum": [
+                        "VictorSP",
+                        "VictorSPX",
+                        "TalonSRX",
+                        "SparkMax"
+                    ]
+                },
+                "port": {
+                    "type": "integer",
+                    "minimum": 0
+                },
+                "inverted": {
+                    "type": "boolean"
+                }
+            },
+            "required": [
+                "type",
+                "port"
+            ]
+        },
+        "MotorSpecs[]": {
+            "type": "array",
+            "items": {
+                "$ref": "#/definitions/MotorSpecs"
+            }
+        },
+        "SolenoidGroup": {
+            "type": "array",
+            "items": {
+                "type": "array",
+                "items": {
+                    "type": "integer",
+                    "minimum": 0
+                },
+                "minItems": 1,
+                "maxItems": 2
+            }
+        }
+    },
+    "type": "object",
+    "properties": {
+        "leftDrive": {
+            "$ref": "#/definitions/MotorSpecs[]"
+        },
+        "rightDrive": {
+            "$ref": "#/definitions/MotorSpecs[]"
+        },
+        "intakeRollers": {
+            "$ref": "#/definitions/MotorSpecs[]"
+        },
+        "intakePistons": {
+            "$ref": "#/definitions/SolenoidGroup"
+        },
+        "accumulatorBelt": {
+            "$ref": "#/definitions/MotorSpecs[]"
+        },
+        "accumulatorKicker": {
+            "$ref": "#/definitions/MotorSpecs[]"
+        },
+        "accumulatorBallSensor": {
+            "type": "integer",
+            "minimum": 0
+        },
+        "shooterFlywheel": {
+            "$ref": "#/definitions/MotorSpecs[]"
+        },
+        "shooterHood": {
+            "$ref": "#/definitions/MotorSpecs[]"
+        },
+        "shooterHoodEncoder": {
+            "type": "array",
+            "items": {
+                "type": "integer",
+                "minimum": 0
+            },
+            "minItems": 2,
+            "maxItems": 2
+        },
+        "shooterLimitSwitch": {
+            "type": "integer",
+            "minimum": 0
+        },
+        "wheelManipulator": {
+            "$ref": "#/definitions/MotorSpecs[]"
+        },
+        "wheelPiston": {
+            "$ref": "#/definitions/SolenoidGroup"
+        },
+        "wheelCounter": {
+            "type": "integer",
+            "minimum": 0
+        },
+        "climbArm": {
+            "$ref": "#/definitions/MotorSpecs[]"
+        },
+        "climbWinch": {
+            "$ref": "#/definitions/MotorSpecs[]"
+        },
+        "climbPiston": {
+            "$ref": "#/definitions/SolenoidGroup"
+        }
+    },
+    "required": [
+        "leftDrive",
+        "rightDrive",
+        "intakeRollers",
+        "intakePistons",
+        "accumulatorBelt",
+        "accumulatorKicker",
+        "accumulatorBallSensor",
+        "shooterFlywheel",
+        "shooterHood",
+        "shooterHoodEncoder",
+        "shooterLimitSwitch",
+        "wheelManipulator",
+        "wheelPiston",
+        "wheelCounter",
+        "climbArm",
+        "climbWinch",
+        "climbPiston"
+    ]
+}

@@ -1,4 +1,5 @@
 {
+    "$schema": "http://team5892.com/schemas/2020/RobotMap01.json",
     "leftDrive": [
         {
             "type": "SparkMax",
