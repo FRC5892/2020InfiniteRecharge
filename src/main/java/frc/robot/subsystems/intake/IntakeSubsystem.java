@@ -17,7 +17,6 @@ public class IntakeSubsystem extends SubsystemBase {
         rollers = MotorSpecs.makeSpeedControllers(map.intakeRollers, "Rollers", this);
         pistons = SolenoidGroup.forPorts(map.intakePistons);
         addChild("Pistons", pistons);
-        setDefaultCommand(new JoystickIntakeCommand(this));
     }
 
     public void setRollers(double speed) {

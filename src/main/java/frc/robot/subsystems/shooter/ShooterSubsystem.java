@@ -20,11 +20,9 @@ public class ShooterSubsystem extends SubsystemBase {
     private static final boolean TUNING_MODE = true;
 
     private final CANSparkMax flywheel;
-    private final SpeedController kicker;
     private final SpeedController hood;
     private final Encoder hoodEncoder;
     private final DigitalInput limitSwitch;
-    private final DigitalInput ballSensor;
     private final PIDController hoodController;
     private boolean hoodControllerEnabled;
 
@@ -35,14 +33,11 @@ public class ShooterSubsystem extends SubsystemBase {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        kicker = MotorSpecs.makeSpeedControllers(map.shooterKicker, "Kicker", this);
         hood = MotorSpecs.makeSpeedControllers(map.shooterHood, "Hood", this);
         hoodEncoder = new Encoder(map.shooterHoodEncoder[0], map.shooterHoodEncoder[1]);
         addChild("Hood Encoder", hoodEncoder);
         limitSwitch = new DigitalInput(map.shooterLimitSwitch);
         addChild("Limit Switch", limitSwitch);
-        ballSensor = new DigitalInput(map.shooterBallSensor);
-        addChild("Ball Sensor", ballSensor);
         hoodController = new FilePIDController("/home/lvuser/deploy/PID/Hood.txt");
         addChild("Hood Controller", hoodController);
     }
@@ -55,9 +50,6 @@ public class ShooterSubsystem extends SubsystemBase {
         flywheel.stopMotor();
     }
 
-    public void setKicker(double speed) {
-        kicker.set(speed);
-    }
 
     public void setHoodSetpoint(double setpoint) {
         hoodController.setSetpoint(setpoint);
@@ -69,10 +61,7 @@ public class ShooterSubsystem extends SubsystemBase {
         hoodController.reset();
     }
 
-    public boolean seesBall() {
-        return ballSensor.get();
-    }
-
+    
     @Override
     public void periodic() {
         if (limitSwitch.get()) {

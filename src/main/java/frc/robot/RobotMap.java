@@ -18,10 +18,12 @@ public class RobotMap {
     public int[][] climbPiston;
 
     public MotorSpecs[] shooterFlywheel;
-    public MotorSpecs[] shooterKicker;
     public MotorSpecs[] shooterHood;
     public int[] shooterHoodEncoder;
     public int shooterLimitSwitch;
-    public int shooterBallSensor;
+
+    public MotorSpecs[] accumulatorBelt;
+    public MotorSpecs[] accumulatorKicker;
+    public int accumulatorBallSensor;
 
 }

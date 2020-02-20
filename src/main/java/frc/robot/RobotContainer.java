@@ -19,9 +19,11 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.Limelight;
+import frc.robot.subsystems.accumulator.AccumulatorSubsystem;
 import frc.robot.subsystems.climb.ClimbSubsystem;
 import frc.robot.subsystems.drive.DriveSubsystem;
 import frc.robot.subsystems.intake.IntakeSubsystem;
+import frc.robot.subsystems.intake.JoystickIntakeCommand;
 import frc.robot.subsystems.wheel.WheelSubsystem;
 
 /**
@@ -42,6 +44,7 @@ public class RobotContainer {
   public final WheelSubsystem wheel;
   public final IntakeSubsystem intake;
   public final ClimbSubsystem climb;
+  public final AccumulatorSubsystem accumulator;
 
   public final Limelight limelight;
 
@@ -62,6 +65,9 @@ public class RobotContainer {
     wheel = new WheelSubsystem(map, this);
     intake = new IntakeSubsystem(map, this);
     climb = new ClimbSubsystem(map, this);
+    accumulator = new AccumulatorSubsystem(map, this);
+
+    intake.setDefaultCommand(new JoystickIntakeCommand(intake, accumulator));
 
     limelight = new Limelight();
 
