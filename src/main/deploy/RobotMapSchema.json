@@ -1,6 +1,6 @@
 {
     "$schema": "http://json-schema.org/draft-07/schema",
-    "$id": "http://team5892.com/schemas/2020/RobotMap02.json",
+    "$id": "http://team5892.com/schemas/2020/RobotMap03.json",
     "definitions": {
         "MotorSpecs": {
             "type": "object",
@@ -118,7 +118,7 @@
         "accumulatorBallSensor",
         "shooterFlywheel",
         "shooterHood",
-        "shooterHoodEncoder",
+        "shooterHoodCounter",
         "shooterLimitSwitch",
         "wheelManipulator",
         "wheelPiston",

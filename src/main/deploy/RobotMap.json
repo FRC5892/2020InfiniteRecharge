@@ -1,5 +1,5 @@
 {
-    "$schema": "http://team5892.com/schemas/2020/RobotMap02.json",
+    "$schema": "http://team5892.com/schemas/2020/RobotMap03.json",
     "leftDrive": [
         {
             "type": "SparkMax",
@@ -28,10 +28,25 @@
             "port": 6
         }
     ],
-    "intakeRollers": [],
+    "intakeRollers": [
+        {
+            "type": "VictorSP",
+            "port": 3
+        }
+    ],
     "intakePistons": [],
-    "accumulatorBelt": [],
-    "accumulatorKicker": [],
+    "accumulatorBelt": [
+        {
+            "type": "VictorSP",
+            "port": 5
+        }
+    ],
+    "accumulatorKicker": [
+        {
+            "type": "VictorSP",
+            "port": 4
+        }
+    ],
     "accumulatorBallSensor": 0,
     "shooterFlywheel": [
         {
@@ -44,10 +59,20 @@
             "inverted": true
         }
     ],
-    "shooterHood": [],
-    "shooterHoodEncoder": 1,
+    "shooterHood": [
+        {
+            "type": "VictorSP",
+            "port": 6
+        }
+    ],
+    "shooterHoodCounter": 1,
     "shooterLimitSwitch": 3,
-    "wheelManipulator": [],
+    "wheelManipulator": [
+        {
+            "type": "VictorSP",
+            "port": 1
+        }
+    ],
     "wheelPiston": [
         [
             0,
@@ -55,8 +80,18 @@
         ]
     ],
     "wheelCounter": 4,
-    "climbArm": [],
-    "climbWinch": [],
+    "climbArm": [
+        {
+            "type": "VictorSP",
+            "port": 0
+        }
+    ],
+    "climbWinch": [
+        {
+            "type": "VictorSP",
+            "port": 2
+        }
+    ],
     "climbPiston": [],
     "pressureSensor": 0
 }
