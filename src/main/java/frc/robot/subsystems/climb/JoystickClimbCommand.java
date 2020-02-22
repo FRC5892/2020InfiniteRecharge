@@ -1,5 +1,6 @@
 package frc.robot.subsystems.climb;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class JoystickClimbCommand extends CommandBase {
@@ -12,6 +13,10 @@ public class JoystickClimbCommand extends CommandBase {
 
     @Override
     public void execute() {
+        if (DriverStation.getInstance().isFMSAttached() && DriverStation.getInstance().getMatchTime() > 30) {
+            return;
+        }
+
         climb.setArm(climb.container.copilot.getRawAxis(5));
         climb.setWinch(climb.container.copilot.getRawButton(10) ? 1 : 0);
         if (climb.container.copilot.getRawButton(8)) {
