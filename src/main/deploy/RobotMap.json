@@ -1,5 +1,5 @@
 {
-    "$schema": "http://team5892.com/schemas/2020/RobotMap01.json",
+    "$schema": "http://team5892.com/schemas/2020/RobotMap02.json",
     "leftDrive": [
         {
             "type": "SparkMax",
@@ -7,7 +7,7 @@
         },
         {
             "type": "SparkMax",
-            "port": 4
+            "port": 2
         },
         {
             "type": "SparkMax",
@@ -17,7 +17,7 @@
     "rightDrive": [
         {
             "type": "SparkMax",
-            "port": 2
+            "port": 4
         },
         {
             "type": "SparkMax",
@@ -28,24 +28,8 @@
             "port": 6
         }
     ],
-    "intakeRollers": [
-        {
-            "type": "VictorSP",
-            "port": 1,
-            "inverted": true
-        },
-        {
-            "type": "VictorSP",
-            "port": 0,
-            "inverted": true
-        }
-    ],
-    "intakePistons": [
-        [
-            2,
-            3
-        ]
-    ],
+    "intakeRollers": [],
+    "intakePistons": [],
     "accumulatorBelt": [],
     "accumulatorKicker": [],
     "accumulatorBallSensor": 0,
@@ -61,10 +45,7 @@
         }
     ],
     "shooterHood": [],
-    "shooterHoodEncoder": [
-        1,
-        2
-    ],
+    "shooterHoodEncoder": 1,
     "shooterLimitSwitch": 3,
     "wheelManipulator": [],
     "wheelPiston": [
@@ -76,5 +57,6 @@
     "wheelCounter": 4,
     "climbArm": [],
     "climbWinch": [],
-    "climbPiston": []
+    "climbPiston": [],
+    "pressureSensor": 0
 }

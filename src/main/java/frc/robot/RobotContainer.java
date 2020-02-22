@@ -35,7 +35,7 @@ import frc.robot.subsystems.wheel.WheelSubsystem;
  * commands, and button mappings) should be declared here.
  */
 public class RobotContainer {
-  private final RobotMap map;
+  public final RobotMap map;
 
   public final Joystick pilot;
   public final Joystick copilot;

@@ -18,7 +18,7 @@ public class RobotMap {
 
     public MotorSpecs[] shooterFlywheel;
     public MotorSpecs[] shooterHood;
-    public int[] shooterHoodEncoder;
+    public int shooterHoodCounter;
     public int shooterLimitSwitch;
 
     public MotorSpecs[] wheelManipulator;
@@ -28,4 +28,6 @@ public class RobotMap {
     public MotorSpecs[] climbArm;
     public MotorSpecs[] climbWinch;
     public int[][] climbPiston;
+
+    public int pressureSensor;
 }

@@ -5,8 +5,8 @@ import java.io.IOException;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.ControlType;
 
+import edu.wpi.first.wpilibj.Counter;
 import edu.wpi.first.wpilibj.DigitalInput;
-import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -25,7 +25,7 @@ public class ShooterSubsystem extends SubsystemBase {
     public final RobotContainer container;
     private final CANSparkMax flywheel;
     private final SpeedController hood;
-    private final Encoder hoodEncoder;
+    private final Counter hoodCounter;
     private final DigitalInput limitSwitch;
     private final PIDController hoodController;
 
@@ -41,8 +41,8 @@ public class ShooterSubsystem extends SubsystemBase {
             throw new RuntimeException(e);
         }
         hood = MotorSpecs.makeSpeedControllers(map.shooterHood, "Hood", this);
-        hoodEncoder = new Encoder(map.shooterHoodEncoder[0], map.shooterHoodEncoder[1]);
-        addChild("Hood Encoder", hoodEncoder);
+        hoodCounter = new Counter(map.shooterHoodCounter);
+        addChild("Hood Counter", hoodCounter);
         limitSwitch = new DigitalInput(map.shooterLimitSwitch);
         addChild("Limit Switch", limitSwitch);
         hoodController = new FilePIDController("/home/lvuser/deploy/PID/Hood.txt");
@@ -97,10 +97,10 @@ public class ShooterSubsystem extends SubsystemBase {
     @Override
     public void periodic() {
         if (hoodAtBaseline()) {
-            hoodEncoder.reset();
+            hoodCounter.reset();
         }
         if (hoodControllerEnabled) {
-            hood.set(hoodController.calculate(hoodEncoder.get()));
+            hood.set(hoodController.calculate(hoodCounter.get()));
         }
     }
 }

@@ -1,6 +1,6 @@
 {
     "$schema": "http://json-schema.org/draft-07/schema",
-    "$id": "http://team5892.com/schemas/2020/RobotMap01.json",
+    "$id": "http://team5892.com/schemas/2020/RobotMap02.json",
     "definitions": {
         "MotorSpecs": {
             "type": "object",
@@ -76,14 +76,9 @@
         "shooterHood": {
             "$ref": "#/definitions/MotorSpecs[]"
         },
-        "shooterHoodEncoder": {
-            "type": "array",
-            "items": {
-                "type": "integer",
-                "minimum": 0
-            },
-            "minItems": 2,
-            "maxItems": 2
+        "shooterHoodCounter": {
+            "type": "integer",
+            "minimum": 0
         },
         "shooterLimitSwitch": {
             "type": "integer",
@@ -107,6 +102,10 @@
         },
         "climbPiston": {
             "$ref": "#/definitions/SolenoidGroup"
+        },
+        "pressureSensor": {
+            "type": "integer",
+            "minimum": 0
         }
     },
     "required": [
@@ -126,6 +125,7 @@
         "wheelCounter",
         "climbArm",
         "climbWinch",
-        "climbPiston"
+        "climbPiston",
+        "pressureSensor"
     ]
 }

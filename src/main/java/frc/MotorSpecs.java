@@ -2,11 +2,9 @@ package frc;
 
 import java.util.Arrays;
 
-import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 import com.revrobotics.CANSparkMax;
-import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj.SpeedController;
@@ -20,19 +18,19 @@ public class MotorSpecs {
     public boolean inverted;
 
     private static WPI_VictorSPX victorSpxSetup(WPI_VictorSPX motor) {
-        motor.setNeutralMode(NeutralMode.Brake);
+        //motor.setNeutralMode(NeutralMode.Brake);
         return motor;
     }
 
     private static WPI_TalonSRX talonSrxSetup(WPI_TalonSRX motor) {
-        motor.setNeutralMode(NeutralMode.Brake);
+        //motor.setNeutralMode(NeutralMode.Brake);
         return motor;
     }
 
     private static CANSparkMax sparkMaxSetup(CANSparkMax motor) {
-        motor.setIdleMode(IdleMode.kBrake);
+        //motor.setIdleMode(IdleMode.kBrake);
         motor.setSmartCurrentLimit(40);
-        motor.setOpenLoopRampRate(0.5);
+        //motor.setOpenLoopRampRate(0.5);
         return motor;
     }
 
