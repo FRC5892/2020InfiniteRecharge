@@ -3,6 +3,9 @@ package frc.robot;
 import frc.MotorSpecs;
 
 public class RobotMap {
+    // screw the fact that this needs to be here.
+    public String $schema;
+
     public MotorSpecs[] leftDrive;
     public MotorSpecs[] rightDrive;
 

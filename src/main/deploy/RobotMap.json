@@ -49,7 +49,17 @@
     "accumulatorBelt": [],
     "accumulatorKicker": [],
     "accumulatorBallSensor": 0,
-    "shooterFlywheel": [],
+    "shooterFlywheel": [
+        {
+            "type": "SparkMax",
+            "port": 7
+        },
+        {
+            "type": "SparkMax",
+            "port": 8,
+            "inverted": true
+        }
+    ],
     "shooterHood": [],
     "shooterHoodEncoder": [
         1,

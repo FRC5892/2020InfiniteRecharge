@@ -22,6 +22,7 @@ public class ShooterSubsystem extends SubsystemBase {
     private static final double HOOD_THRESHOLD = 20; // encoder ticks
     private static final double HOOD_VELOCITY_THRESHOLD = 5; // encoder ticks per some unit of time idk
 
+    public final RobotContainer container;
     private final CANSparkMax flywheel;
     private final SpeedController hood;
     private final Encoder hoodEncoder;
@@ -32,6 +33,7 @@ public class ShooterSubsystem extends SubsystemBase {
     private boolean hoodControllerEnabled;
 
     public ShooterSubsystem(RobotMap map, RobotContainer container) {
+        this.container = container;
         flywheel = MotorSpecs.makeSparkMaxes(map.shooterFlywheel);
         try {
             SparkMaxUtils.readPID(flywheel, "Flywheel", TUNING_MODE);
@@ -46,6 +48,12 @@ public class ShooterSubsystem extends SubsystemBase {
         hoodController = new FilePIDController("/home/lvuser/deploy/PID/Hood.txt");
         addChild("Hood Controller", hoodController);
         hoodController.setTolerance(HOOD_THRESHOLD, HOOD_VELOCITY_THRESHOLD);
+        setDefaultCommand(new ManualShooterControl(this));
+    }
+
+    public void setFlywheelSpeed(double speed) {
+        flywheel.set(speed);
+        flywheelSetpoint = Double.NaN;
     }
 
     public void setFlywheelSetpoint(double setpoint) {
@@ -58,14 +66,24 @@ public class ShooterSubsystem extends SubsystemBase {
         flywheelSetpoint = Double.NaN;
     }
 
+    public void setHoodSpeed(double speed) {
+        hood.set(speed);
+        hoodControllerEnabled = false;
+    }
+
     public void setHoodSetpoint(double setpoint) {
         hoodController.setSetpoint(setpoint);
         hoodControllerEnabled = true;
     }
 
     public void stopHood() {
-        hoodControllerEnabled = false;
+        hood.stopMotor();
         hoodController.reset();
+        hoodControllerEnabled = false;
+    }
+
+    public boolean hoodAtBaseline() {
+        return limitSwitch.get();
     }
 
     public boolean atSetpoints() {
@@ -78,7 +96,7 @@ public class ShooterSubsystem extends SubsystemBase {
 
     @Override
     public void periodic() {
-        if (limitSwitch.get()) {
+        if (hoodAtBaseline()) {
             hoodEncoder.reset();
         }
         if (hoodControllerEnabled) {
