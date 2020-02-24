@@ -26,8 +26,9 @@ public class RunShooter extends CommandBase {
 
     @Override
     public void execute() {
-        if (shooter.atSetpoints()) {
-            accumulator.set(0.5);
+        if (shooter.atSetpoints() || !accumulator.seesBall()) {
+            accumulator.setBelt(0.5);
+            accumulator.setKicker(0.85);
         } else {
             accumulator.set(0);
         }

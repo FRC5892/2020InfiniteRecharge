@@ -31,7 +31,8 @@
     "intakeRollers": [
         {
             "type": "VictorSP",
-            "port": 3
+            "port": 3,
+            "inverted": true
         }
     ],
     "intakePistons": [
@@ -43,16 +44,17 @@
     "accumulatorBelt": [
         {
             "type": "VictorSP",
-            "port": 5
+            "port": 4
         }
     ],
     "accumulatorKicker": [
         {
             "type": "VictorSP",
-            "port": 4
+            "port": 5,
+            "inverted": true
         }
     ],
-    "accumulatorBallSensor": 0,
+    "accumulatorBallSensor": 3,
     "shooterFlywheel": [
         {
             "type": "SparkMax",
@@ -70,8 +72,8 @@
             "port": 6
         }
     ],
-    "shooterHoodCounter": 1,
-    "shooterLimitSwitch": 3,
+    "shooterHoodCounter": 0,
+    "shooterLimitSwitch": 1,
     "wheelManipulator": [
         {
             "type": "VictorSP",
@@ -80,15 +82,16 @@
     ],
     "wheelPiston": [
         [
-            3,
-            0
+            0,
+            3
         ]
     ],
     "wheelCounter": 4,
     "climbArm": [
         {
             "type": "VictorSP",
-            "port": 0
+            "port": 0,
+            "inverted": true
         }
     ],
     "climbWinch": [

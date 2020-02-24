@@ -1,7 +1,6 @@
 package frc;
 
 import com.revrobotics.CANSparkMax;
-import com.revrobotics.CANSparkMax.IdleMode;
 
 import edu.wpi.first.networktables.EntryListenerFlags;
 import edu.wpi.first.wpilibj.Notifier;
@@ -31,7 +30,6 @@ public class SparkMaxUtils {
         if (tuningMode) {
             makeShuffleboardTab(spark, name, kP, kI, kD, kF);
         }
-        spark.setIdleMode(IdleMode.kBrake);
     }
 
     @SuppressWarnings("resource")

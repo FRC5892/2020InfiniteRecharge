@@ -22,7 +22,7 @@ public class WheelSubsystem extends SubsystemBase {
         piston = SolenoidGroup.forPorts(map.wheelPiston);
         addChild("Piston", piston);
         counter = new Counter(map.wheelCounter);
-        counter.setUpSourceEdge(false, true);
+        //counter.setUpSourceEdge(false, true);
         addChild("Counter", counter);
 
         setDefaultCommand(new JoystickWheelCommand(this));

@@ -17,10 +17,10 @@ import frc.robot.RobotContainer;
 import frc.robot.RobotMap;
 
 public class ShooterSubsystem extends SubsystemBase {
-    private static final boolean TUNING_MODE = true;
-    private static final double FLYWHEEL_THRESHOLD = 10_000; // SPARK MAX speed units
-    private static final double HOOD_THRESHOLD = 20; // encoder ticks
-    private static final double HOOD_VELOCITY_THRESHOLD = 5; // encoder ticks per some unit of time idk
+    private static final boolean TUNING_MODE = false;
+    private static final double FLYWHEEL_THRESHOLD = 100; // SPARK MAX speed units
+    private static final double HOOD_THRESHOLD = 20; // counter ticks
+    private static final double HOOD_VELOCITY_THRESHOLD = 5; // counter ticks per some unit of time idk
 
     public final RobotContainer container;
     private final CANSparkMax flywheel;
@@ -43,6 +43,7 @@ public class ShooterSubsystem extends SubsystemBase {
         hood = MotorSpecs.makeSpeedControllers(map.shooterHood, "Hood", this);
         hoodCounter = new Counter(map.shooterHoodCounter);
         addChild("Hood Counter", hoodCounter);
+        hoodCounter.setUpDownCounterMode();
         limitSwitch = new DigitalInput(map.shooterLimitSwitch);
         addChild("Limit Switch", limitSwitch);
         hoodController = new FilePIDController("/home/lvuser/deploy/PID/Hood.txt");
@@ -83,7 +84,7 @@ public class ShooterSubsystem extends SubsystemBase {
     }
 
     public boolean hoodAtBaseline() {
-        return limitSwitch.get();
+        return !limitSwitch.get();
     }
 
     public boolean atSetpoints() {
@@ -97,6 +98,7 @@ public class ShooterSubsystem extends SubsystemBase {
     @Override
     public void periodic() {
         if (hoodAtBaseline()) {
+            System.out.println("resetting counter");
             hoodCounter.reset();
         }
         if (hoodControllerEnabled) {

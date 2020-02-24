@@ -20,7 +20,6 @@ public class ClimbSubsystem extends SubsystemBase {
         armPiston = SolenoidGroup.forPorts(map.climbPiston);
         addChild("Arm Piston", armPiston);
         setDefaultCommand(new JoystickClimbCommand(this));
-
     }
 
     public void setArm(double speed) {
