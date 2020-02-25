@@ -2,6 +2,7 @@ package frc.robot.subsystems.wheel;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
+@Deprecated
 public class JoystickWheelCommand extends CommandBase {
     private final WheelSubsystem wheel;
 

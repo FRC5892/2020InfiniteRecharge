@@ -19,12 +19,17 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.Limelight;
+import frc.POVTrigger;
 import frc.robot.subsystems.accumulator.AccumulatorSubsystem;
 import frc.robot.subsystems.climb.ClimbSubsystem;
 import frc.robot.subsystems.drive.DriveSubsystem;
 import frc.robot.subsystems.intake.IntakeSubsystem;
 import frc.robot.subsystems.intake.JoystickIntakeCommand;
 import frc.robot.subsystems.shooter.ShooterSubsystem;
+import frc.robot.subsystems.wheel.SetWheelPiston;
+import frc.robot.subsystems.wheel.WheelCommandGroup;
+import frc.robot.subsystems.wheel.WheelPositionControl;
+import frc.robot.subsystems.wheel.WheelRotationControl;
 import frc.robot.subsystems.wheel.WheelSubsystem;
 
 /**
@@ -85,6 +90,10 @@ public class RobotContainer {
    * passing it to a {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
+    new POVTrigger(copilot, 0).whenActive(new SetWheelPiston(wheel, true));
+    new POVTrigger(copilot, 180).whenActive(new SetWheelPiston(wheel, false));
+    new JoystickButton(copilot, 1).whenActive(new WheelCommandGroup(drive, wheel, new WheelRotationControl(wheel, .5)));
+    new JoystickButton(copilot, 2).whenActive(new WheelCommandGroup(drive, wheel, new WheelPositionControl(wheel, .5)));
     new JoystickButton(pilot, 9).and(new JoystickButton(pilot, 10))
         .whenActive(new InstantCommand(() -> CommandScheduler.getInstance().cancelAll()));
   }

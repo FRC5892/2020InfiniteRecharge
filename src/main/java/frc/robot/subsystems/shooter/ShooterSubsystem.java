@@ -43,7 +43,7 @@ public class ShooterSubsystem extends SubsystemBase {
         hood = MotorSpecs.makeSpeedControllers(map.shooterHood, "Hood", this);
         hoodCounter = new Counter(map.shooterHoodCounter);
         addChild("Hood Counter", hoodCounter);
-        hoodCounter.setUpDownCounterMode();
+        hoodCounter.setUpSourceEdge(false, true);
         limitSwitch = new DigitalInput(map.shooterLimitSwitch);
         addChild("Limit Switch", limitSwitch);
         hoodController = new FilePIDController("/home/lvuser/deploy/PID/Hood.txt");
