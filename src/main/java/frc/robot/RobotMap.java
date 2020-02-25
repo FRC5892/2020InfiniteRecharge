@@ -28,6 +28,7 @@ public class RobotMap {
     public MotorSpecs[] climbArm;
     public MotorSpecs[] climbWinch;
     public int[][] climbPiston;
+    public int[][] climbWinchLock;
 
     public int pressureSensor;
 }

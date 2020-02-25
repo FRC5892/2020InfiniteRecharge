@@ -1,6 +1,6 @@
 {
     "$schema": "http://json-schema.org/draft-07/schema",
-    "$id": "http://team5892.com/schemas/2020/RobotMap03.json",
+    "$id": "http://team5892.com/schemas/2020/RobotMap.json",
     "definitions": {
         "MotorSpecs": {
             "type": "object",
@@ -103,6 +103,9 @@
         "climbPiston": {
             "$ref": "#/definitions/SolenoidGroup"
         },
+        "climbWinchLock": {
+            "$ref": "#/definitions/SolenoidGroup"
+        },
         "pressureSensor": {
             "type": "integer",
             "minimum": 0
@@ -126,6 +129,7 @@
         "climbArm",
         "climbWinch",
         "climbPiston",
+        "climbWinchLock",
         "pressureSensor"
     ]
 }

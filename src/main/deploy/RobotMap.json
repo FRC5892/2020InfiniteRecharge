@@ -86,7 +86,7 @@
             3
         ]
     ],
-    "wheelCounter": 4,
+    "wheelCounter": 2,
     "climbArm": [
         {
             "type": "VictorSP",
@@ -104,6 +104,11 @@
         [
             4,
             1
+        ]
+    ],
+    "climbWinchLock": [
+        [
+            7
         ]
     ],
     "pressureSensor": 0

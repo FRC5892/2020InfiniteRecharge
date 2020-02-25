@@ -18,7 +18,7 @@ import frc.robot.RobotMap;
 
 public class ShooterSubsystem extends SubsystemBase {
     private static final boolean TUNING_MODE = false;
-    private static final double FLYWHEEL_THRESHOLD = 100; // SPARK MAX speed units
+    private static final double FLYWHEEL_THRESHOLD = 100; // SPARK MAX speed units (rpm?)
     private static final double HOOD_THRESHOLD = 20; // counter ticks
     private static final double HOOD_VELOCITY_THRESHOLD = 5; // counter ticks per some unit of time idk
 
@@ -69,6 +69,7 @@ public class ShooterSubsystem extends SubsystemBase {
 
     public void setHoodSpeed(double speed) {
         hood.set(speed);
+        hoodController.reset();
         hoodControllerEnabled = false;
     }
 
@@ -98,7 +99,6 @@ public class ShooterSubsystem extends SubsystemBase {
     @Override
     public void periodic() {
         if (hoodAtBaseline()) {
-            System.out.println("resetting counter");
             hoodCounter.reset();
         }
         if (hoodControllerEnabled) {
