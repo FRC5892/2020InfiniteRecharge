@@ -45,5 +45,4 @@ public class ClimbSubsystem extends SubsystemBase {
     public void retractArmPiston() {
         armPiston.set(false);
     }
-
 }

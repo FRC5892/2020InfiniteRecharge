@@ -3,7 +3,8 @@ package frc.robot.subsystems.wheel;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class WheelRotationControl extends CommandBase {
-    private static final int TARGET = 8;
+    // 4 rotations * ~2 ticks/rotation * 32" wheel of fortune / 3" manipulator
+    private static final int TARGET = 4 * 2 * 32 / 3;
 
     private final WheelSubsystem wheel;
     private final double speed;

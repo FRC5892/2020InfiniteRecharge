@@ -33,7 +33,8 @@ public class SparkMaxUtils {
     }
 
     @SuppressWarnings("resource")
-    private static void makeShuffleboardTab(CANSparkMax spark, String name, double kP, double kI, double kD, double kF) {
+    private static void makeShuffleboardTab(CANSparkMax spark, String name, double kP, double kI, double kD,
+            double kF) {
         var tab = Shuffleboard.getTab(name);
         var controller = spark.getPIDController();
 
