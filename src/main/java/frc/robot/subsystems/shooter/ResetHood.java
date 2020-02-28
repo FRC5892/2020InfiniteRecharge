@@ -5,26 +5,36 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 public class ResetHood extends CommandBase {
     private final ShooterSubsystem shooter;
 
+    private final boolean end;
     private final double speed;
 
     public ResetHood(ShooterSubsystem shooter) {
-        this(shooter, 0.75);
+        this(shooter, true);
     }
 
-    public ResetHood(ShooterSubsystem shooter, double speed) {
+    public ResetHood(ShooterSubsystem shooter, boolean end) {
+        this(shooter, end, 0.75);
+    }
+
+    public ResetHood(ShooterSubsystem shooter, boolean end, double speed) {
         this.shooter = shooter;
+        this.end = end;
         this.speed = Math.copySign(speed, -1);
         addRequirements(shooter);
     }
 
     @Override
     public void execute() {
-        shooter.setHoodSpeed(speed);
+        if (!shooter.hoodAtBaseline()) {
+            shooter.setHoodSpeed(speed);
+        } else {
+            shooter.stopHood();
+        }
     }
 
     @Override
     public boolean isFinished() {
-        return shooter.hoodAtBaseline();
+        return end && shooter.hoodAtBaseline();
     }
 
     @Override

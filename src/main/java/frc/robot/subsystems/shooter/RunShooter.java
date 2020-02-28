@@ -21,16 +21,21 @@ public class RunShooter extends CommandBase {
     @Override
     public void initialize() {
         shooter.setFlywheelSetpoint(flywheelSetpoint);
-        shooter.setHoodSetpoint(hoodSetpoint);
     }
 
     @Override
     public void execute() {
-        if (shooter.atSetpoints() || !accumulator.seesBall()) {
-            accumulator.setBelt(0.5);
-            accumulator.setKicker(0.85);
+        if (shooter.getHoodCounter() < hoodSetpoint) {
+            shooter.setHoodSpeed(0.5);
+            accumulator.set(accumulator.seesBall() ? 0 : 0.5);
         } else {
-            accumulator.set(0);
+            shooter.stopHood();
+            if (shooter.flywheelAtSetpoint()) {
+                accumulator.setBelt(0.5);
+                accumulator.setKicker(0.85);
+            } else {
+                accumulator.set(accumulator.seesBall() ? 0 : 0.5);
+            }
         }
     }
 

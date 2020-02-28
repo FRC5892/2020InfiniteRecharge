@@ -20,6 +20,7 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.Limelight;
 import frc.POVTrigger;
+import frc.robot.commands.AimAndShoot;
 import frc.robot.subsystems.accumulator.AccumulatorSubsystem;
 import frc.robot.subsystems.climb.ClimbSubsystem;
 import frc.robot.subsystems.drive.DriveSubsystem;
@@ -90,9 +91,10 @@ public class RobotContainer {
    * passing it to a {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
+    new JoystickButton(copilot, 1).whenActive(new AimAndShoot(this, 9500));
     new POVTrigger(copilot, 0).whenActive(new SetWheelPiston(wheel, true));
     new POVTrigger(copilot, 180).whenActive(new SetWheelPiston(wheel, false));
-    new JoystickButton(copilot, 1).whenActive(new WheelCommandGroup(drive, wheel, new WheelRotationControl(wheel, .5)));
+    //new JoystickButton(copilot, 1).whenActive(new WheelCommandGroup(drive, wheel, new WheelRotationControl(wheel, .5)));
     new JoystickButton(copilot, 2).whenActive(new WheelCommandGroup(drive, wheel, new WheelPositionControl(wheel, .5)));
     new JoystickButton(pilot, 9).and(new JoystickButton(pilot, 10))
         .whenActive(new InstantCommand(() -> CommandScheduler.getInstance().cancelAll()));

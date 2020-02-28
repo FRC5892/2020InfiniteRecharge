@@ -84,11 +84,11 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void disabledInit() {
-    robotContainer.limelight.setLedMode(LEDMode.OFF);
   }
 
   @Override
   public void disabledPeriodic() {
+    robotContainer.limelight.setLedMode(LEDMode.OFF);
   }
 
   /**

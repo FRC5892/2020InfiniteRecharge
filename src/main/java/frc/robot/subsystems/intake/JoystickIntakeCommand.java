@@ -21,6 +21,8 @@ public class JoystickIntakeCommand extends CommandBase {
         intake.setRollers(rollerSpeed);
         if (rollerSpeed > 0 && !accumulator.seesBall()) {
             accumulator.set(rollerSpeed * ACC_SCALE);
+        } else {
+            accumulator.set(0);
         }
         if (rollerSpeed > 0.1) {
             intake.extendPistons();
