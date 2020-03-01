@@ -80,7 +80,11 @@
             "type": "integer",
             "minimum": 0
         },
-        "shooterLimitSwitch": {
+        "shooterLowerLimit": {
+            "type": "integer",
+            "minimum": 0
+        },
+        "shooterUpperLimit": {
             "type": "integer",
             "minimum": 0
         },
@@ -103,9 +107,6 @@
         "climbPiston": {
             "$ref": "#/definitions/SolenoidGroup"
         },
-        "climbWinchLock": {
-            "$ref": "#/definitions/SolenoidGroup"
-        },
         "pressureSensor": {
             "type": "integer",
             "minimum": 0
@@ -122,14 +123,17 @@
         "shooterFlywheel",
         "shooterHood",
         "shooterHoodCounter",
-        "shooterLimitSwitch",
+        "shooterLowerLimit",
+        "shooterUpperLimit",
         "wheelManipulator",
         "wheelPiston",
         "wheelCounter",
         "climbArm",
         "climbWinch",
         "climbPiston",
-        "climbWinchLock",
         "pressureSensor"
-    ]
+    ],
+    "additionalProperties": {
+        "type": "string"
+    }
 }

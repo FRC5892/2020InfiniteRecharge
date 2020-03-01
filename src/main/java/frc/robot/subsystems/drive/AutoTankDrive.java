@@ -28,7 +28,7 @@ public class AutoTankDrive extends CommandBase {
 
     @Override
     public boolean isFinished() {
-        return drive.getLeftEncoder() > encoderTarget || drive.getRightEncoder() > encoderTarget;
+        return Math.abs(drive.getLeftEncoder()) > encoderTarget || Math.abs(drive.getRightEncoder()) > encoderTarget;
     }
     @Override
     public void end(boolean interrupted) {

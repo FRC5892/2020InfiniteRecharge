@@ -15,14 +15,14 @@ import frc.robot.RobotContainer;
 import frc.robot.RobotMap;
 
 public class ShooterSubsystem extends SubsystemBase {
-    private static final boolean TUNING_MODE = true;
-    private static final double FLYWHEEL_THRESHOLD = 25; // SPARK MAX speed units (rpm?)
+    private static final boolean TUNING_MODE = false;
+    private static final double FLYWHEEL_THRESHOLD = 15; // SPARK MAX speed units (rpm?)
 
     public final RobotContainer container;
     private final CANSparkMax flywheel;
     private final SpeedController hood;
     private final Counter hoodCounter;
-    private final DigitalInput limitSwitch;
+    private final DigitalInput lowerLimit, upperLimit;
 
     private double flywheelSetpoint = Double.NaN;
 
@@ -38,9 +38,11 @@ public class ShooterSubsystem extends SubsystemBase {
         hoodCounter = new Counter(map.shooterHoodCounter);
         addChild("Hood Counter", hoodCounter);
         hoodCounter.setUpSourceEdge(false, true);
-        limitSwitch = new DigitalInput(map.shooterLimitSwitch);
-        addChild("Limit Switch", limitSwitch);
-        setDefaultCommand(new ManualShooterControl(this));
+        lowerLimit = new DigitalInput(map.shooterLowerLimit);
+        addChild("Lower Limit", lowerLimit);
+        upperLimit = new DigitalInput(map.shooterUpperLimit);
+        addChild("Upper Limit", upperLimit);
+        setDefaultCommand(new ResetHood(this, false));
     }
 
     public void setFlywheelSpeed(double speed) {
@@ -71,7 +73,11 @@ public class ShooterSubsystem extends SubsystemBase {
     }
 
     public boolean hoodAtBaseline() {
-        return !limitSwitch.get();
+        return !lowerLimit.get();
+    }
+
+    public boolean hoodAtExtent() {
+        return upperLimit.get();
     }
 
     public boolean flywheelAtSetpoint() {

@@ -15,15 +15,17 @@ public class JoystickClimbCommand extends CommandBase {
     @Override
     public void execute() {
         if (DriverStation.getInstance().isFMSAttached() && DriverStation.getInstance().getMatchTime() > 30) {
-            return;
-        }
-
-        climb.setArm(MathUtils.deadZone(climb.container.copilot.getRawAxis(5), 0.1));
-        climb.setWinch(climb.container.copilot.getRawAxis(3) - climb.container.copilot.getRawAxis(2));
-        if (climb.container.copilot.getRawButton(8)) {
-            climb.extendArmPiston();
-        } else if (climb.container.copilot.getRawButton(7)) {
+            climb.setArm(0);
+            climb.setWinch(0);
             climb.retractArmPiston();
+        } else {
+            climb.setArm(MathUtils.deadZone(climb.container.copilot.getRawAxis(5), 0.1));
+            climb.setWinch(climb.container.copilot.getRawAxis(3));
+            if (climb.container.copilot.getRawButton(8)) {
+                climb.extendArmPiston();
+            } else if (climb.container.copilot.getRawButton(7)) {
+                climb.retractArmPiston();
+            }
         }
     }
 }

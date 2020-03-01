@@ -3,6 +3,7 @@ package frc.robot.subsystems.drive;
 import com.revrobotics.CANEncoder;
 
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.MotorSpecs;
 import frc.robot.RobotContainer;
@@ -51,5 +52,10 @@ public class DriveSubsystem extends SubsystemBase {
     public void resetEncoders() {
         leftEncoder.setPosition(0);
         rightEncoder.setPosition(0);
+    }
+
+    @Override
+    public void periodic() {
+        SmartDashboard.putNumber("Drive Encoder", getLeftEncoder());
     }
 }

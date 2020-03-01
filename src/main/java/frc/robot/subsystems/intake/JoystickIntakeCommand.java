@@ -4,6 +4,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.accumulator.AccumulatorSubsystem;
 
 public class JoystickIntakeCommand extends CommandBase {
+    private static final double INTAKE_SCALE = 0.8;
     private static final double ACC_SCALE = 0.5;
 
     private final IntakeSubsystem intake;
@@ -18,7 +19,7 @@ public class JoystickIntakeCommand extends CommandBase {
     @Override
     public void execute() {
         var rollerSpeed = intake.container.pilot.getRawAxis(3) - intake.container.pilot.getRawAxis(2);
-        intake.setRollers(rollerSpeed);
+        intake.setRollers(rollerSpeed * INTAKE_SCALE);
         if (rollerSpeed > 0 && !accumulator.seesBall()) {
             accumulator.set(rollerSpeed * ACC_SCALE);
         } else {

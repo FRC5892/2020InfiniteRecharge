@@ -12,7 +12,7 @@ public class WheelCommandGroup extends BuiltSequence {
         super(s -> {
            s.add(command);
            s.add(new WaitCommand(0.5));
-           s.add(new AutoTankDrive(drive, -0.6, -0.6, -500).withTimeout(.2));
+           s.add(new AutoTankDrive(drive, 0.6, 0.6, 500).withTimeout(.2));
            s.add(new SetWheelPiston(wheel, false));
         });
     }

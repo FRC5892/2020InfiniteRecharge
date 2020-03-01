@@ -11,9 +11,13 @@ import java.io.File;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
@@ -21,6 +25,9 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.Limelight;
 import frc.POVTrigger;
 import frc.robot.commands.AimAndShoot;
+import frc.robot.commands.BackUpAndAimAndShoot;
+import frc.robot.commands.PeerThroughLimelight;
+import frc.robot.commands.autons.UltraSimpleAuton;
 import frc.robot.subsystems.accumulator.AccumulatorSubsystem;
 import frc.robot.subsystems.climb.ClimbSubsystem;
 import frc.robot.subsystems.drive.DriveSubsystem;
@@ -56,6 +63,9 @@ public class RobotContainer {
 
   public final Limelight limelight;
 
+  private final SendableChooser<Command> autonChooser = new SendableChooser<>();
+  private final NetworkTableEntry hoodZeroing;
+
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
@@ -82,6 +92,12 @@ public class RobotContainer {
 
     // Configure the button bindings
     configureButtonBindings();
+
+    autonChooser.setDefaultOption("Simple Auto (Fwd)", new UltraSimpleAuton(this, -0.6));
+    autonChooser.addOption("Simple Auto (Rev)", new UltraSimpleAuton(this, 0.6));
+    var tab = Shuffleboard.getTab("Driver Dashboard");
+    tab.add("Auto", autonChooser).withSize(2, 1);
+    hoodZeroing = tab.add("Hood Zeroing", true).withWidget(BuiltInWidgets.kToggleSwitch).withPosition(1, 2).getEntry();
   }
 
   /**
@@ -91,10 +107,12 @@ public class RobotContainer {
    * passing it to a {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    new JoystickButton(copilot, 1).whenActive(new AimAndShoot(this, 9500));
+    new JoystickButton(pilot, 5).whileActiveOnce(new PeerThroughLimelight(this));
+    new JoystickButton(pilot, 1).whenActive(new AimAndShoot(this, true));
+    new POVTrigger(pilot, 180).whenActive(new BackUpAndAimAndShoot(this));
     new POVTrigger(copilot, 0).whenActive(new SetWheelPiston(wheel, true));
     new POVTrigger(copilot, 180).whenActive(new SetWheelPiston(wheel, false));
-    //new JoystickButton(copilot, 1).whenActive(new WheelCommandGroup(drive, wheel, new WheelRotationControl(wheel, .5)));
+    new JoystickButton(copilot, 1).whenActive(new WheelCommandGroup(drive, wheel, new WheelRotationControl(wheel, .5)));
     new JoystickButton(copilot, 2).whenActive(new WheelCommandGroup(drive, wheel, new WheelPositionControl(wheel, .5)));
     new JoystickButton(pilot, 9).and(new JoystickButton(pilot, 10))
         .whenActive(new InstantCommand(() -> CommandScheduler.getInstance().cancelAll()));
@@ -107,7 +125,10 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // An ExampleCommand will run in autonomous
-    return new InstantCommand(() -> {
-    });
+    return autonChooser.getSelected();
+  }
+
+  public boolean hoodZeroing() {
+    return hoodZeroing.getBoolean(true);
   }
 }

@@ -12,8 +12,8 @@ public class ManualShooterControl extends CommandBase {
 
     @Override
     public void execute() {
-        shooter.setFlywheelSpeed(0.85 * shooter.container.copilot.getRawAxis(3));
-        if (shooter.container.copilot.getRawButton(4)) {
+        //shooter.setFlywheelSpeed(0.85 * shooter.container.copilot.getRawAxis(3));
+        if (shooter.container.copilot.getRawButton(4) && !shooter.hoodAtExtent()) {
             shooter.setHoodSpeed(0.75);
         } else if (shooter.container.copilot.getRawButton(3)) {
             shooter.setHoodSpeed(-0.75);

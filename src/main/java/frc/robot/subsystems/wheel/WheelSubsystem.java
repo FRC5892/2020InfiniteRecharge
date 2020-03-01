@@ -2,6 +2,7 @@ package frc.robot.subsystems.wheel;
 
 import edu.wpi.first.wpilibj.Counter;
 import edu.wpi.first.wpilibj.SpeedController;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.SolenoidGroup;
 import frc.MotorSpecs;
@@ -44,5 +45,20 @@ public class WheelSubsystem extends SubsystemBase {
 
     public void resetCounter() {
         counter.reset();
+    }
+
+    @Override
+    public void periodic() {
+        SmartDashboard.putString("Color We See", safeToString(colors.colorWeSee()));
+        SmartDashboard.putString("Color They See", safeToString(colors.colorTheySee()));
+        SmartDashboard.putString("Color They Want", safeToString(colors.colorTheyWant()));
+    }
+
+    private String safeToString(Object o) {
+        if (o == null) {
+            return "null";
+        } else {
+            return o.toString();
+        }
     }
 }

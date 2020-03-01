@@ -19,6 +19,7 @@
             "type": "SparkMax",
             "port": 4
         },
+        
         {
             "type": "SparkMax",
             "port": 5
@@ -73,7 +74,8 @@
         }
     ],
     "shooterHoodCounter": 0,
-    "shooterLimitSwitch": 1,
+    "shooterLowerLimit": 1,
+    "shooterUpperLimit": 5,
     "wheelManipulator": [
         {
             "type": "VictorSP",
@@ -90,25 +92,20 @@
     "climbArm": [
         {
             "type": "VictorSP",
-            "port": 0,
-            "inverted": true
+            "port": 0
         }
     ],
     "climbWinch": [
         {
             "type": "VictorSP",
-            "port": 2
+            "port": 2,
+            "inverted": true
         }
     ],
     "climbPiston": [
         [
-            4,
+            7,
             1
-        ]
-    ],
-    "climbWinchLock": [
-        [
-            7
         ]
     ],
     "pressureSensor": 0

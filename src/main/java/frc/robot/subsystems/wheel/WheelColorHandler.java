@@ -69,7 +69,12 @@ public class WheelColorHandler {
     }
 
     public WheelColor colorTheyWant() {
-        return WheelColor.forChar(DriverStation.getInstance().getGameSpecificMessage().charAt(0));
+        var msg = DriverStation.getInstance().getGameSpecificMessage();
+        if (msg.length() < 1) {
+            return null;
+        } else {
+            return WheelColor.forChar(DriverStation.getInstance().getGameSpecificMessage().charAt(0));
+        }
     }
 
     public static enum TurnBehavior {

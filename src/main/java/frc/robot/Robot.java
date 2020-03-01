@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import edu.wpi.first.wpiutil.net.PortForwarder;
 import frc.Limelight.LEDMode;
 
 /**
@@ -39,6 +40,9 @@ public class Robot extends TimedRobot {
     robotContainer = new RobotContainer();
 
     pressureSensor = new AnalogInput(robotContainer.map.pressureSensor);
+
+    PortForwarder.add(5800, "10.58.92.11", 5800);
+    PortForwarder.add(5801, "10.58.92.11", 5801);
   }
 
   private static final double PRESSURE_READING_0_PSI = 400;
@@ -98,6 +102,7 @@ public class Robot extends TimedRobot {
   @Override
   public void autonomousInit() {
     robotContainer.limelight.setLedMode(LEDMode.DEFAULT);
+    robotContainer.limelight.setDriverCamera(false);
     autonomousCommand = robotContainer.getAutonomousCommand();
 
     // schedule the autonomous command (example)
@@ -116,6 +121,8 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopInit() {
     robotContainer.limelight.setLedMode(LEDMode.DEFAULT);
+    robotContainer.limelight.setDriverCamera(false);
+    
     // This makes sure that the autonomous stops running when
     // teleop starts running. If you want the autonomous to
     // continue until interrupted by another command, remove
