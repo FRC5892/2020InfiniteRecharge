@@ -3,8 +3,8 @@ package frc.robot.subsystems.drive;
 import com.revrobotics.CANEncoder;
 
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.MathUtils;
 import frc.MotorSpecs;
 import frc.robot.RobotContainer;
 import frc.robot.RobotMap;
@@ -16,12 +16,12 @@ public class DriveSubsystem extends SubsystemBase {
 
     public DriveSubsystem(RobotMap map, RobotContainer container) {
         this.container = container;
-        var left = MotorSpecs.makeSparkMaxes(map.leftDrive);
-        var right = MotorSpecs.makeSparkMaxes(map.rightDrive);
-        drive = new DifferentialDrive(left, right);
+        var leftTup = MotorSpecs.makeSparkMaxGroup(map.leftDrive);
+        var rightTup = MotorSpecs.makeSparkMaxGroup(map.rightDrive);
+        drive = new DifferentialDrive(leftTup.first, rightTup.first);
         addChild("Drive Train", drive);
-        leftEncoder = left.getEncoder();
-        rightEncoder = right.getEncoder();
+        leftEncoder = leftTup.second;
+        rightEncoder = rightTup.second;
 
         setDefaultCommand(new JoystickDriveCommand(this));
     }
@@ -33,8 +33,8 @@ public class DriveSubsystem extends SubsystemBase {
     // See https://www.desmos.com/calculator/snimyobj8h for why scaleFactor gets its
     // own argument
     public void arcadeDrive(double xSpeed, double zRotation, double scaleFactor) {
-        drive.arcadeDrive(Math.copySign(xSpeed * xSpeed, xSpeed) * scaleFactor,
-                Math.copySign(zRotation * zRotation, zRotation) * scaleFactor, false);
+        drive.arcadeDrive(MathUtils.signedSquare(xSpeed) * scaleFactor, MathUtils.signedSquare(zRotation) * scaleFactor,
+                false);
     }
 
     public void tankDrive(double left, double right) {
@@ -52,10 +52,5 @@ public class DriveSubsystem extends SubsystemBase {
     public void resetEncoders() {
         leftEncoder.setPosition(0);
         rightEncoder.setPosition(0);
-    }
-
-    @Override
-    public void periodic() {
-        SmartDashboard.putNumber("Drive Encoder", getLeftEncoder());
     }
 }

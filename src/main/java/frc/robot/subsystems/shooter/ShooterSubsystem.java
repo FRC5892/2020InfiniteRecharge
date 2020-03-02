@@ -28,7 +28,7 @@ public class ShooterSubsystem extends SubsystemBase {
 
     public ShooterSubsystem(RobotMap map, RobotContainer container) {
         this.container = container;
-        flywheel = MotorSpecs.makeSparkMaxes(map.shooterFlywheel);
+        flywheel = MotorSpecs.makeSparkMaxAndFollowers(map.shooterFlywheel);
         try {
             SparkMaxUtils.readPID(flywheel, "Flywheel", TUNING_MODE);
         } catch (IOException e) {

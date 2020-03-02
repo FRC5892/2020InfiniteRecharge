@@ -4,6 +4,7 @@ import java.util.Arrays;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
+import com.revrobotics.CANEncoder;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
@@ -18,19 +19,19 @@ public class MotorSpecs {
     public boolean inverted;
 
     private static WPI_VictorSPX victorSpxSetup(WPI_VictorSPX motor) {
-        //motor.setNeutralMode(NeutralMode.Brake);
+        // motor.setNeutralMode(NeutralMode.Brake);
         return motor;
     }
 
     private static WPI_TalonSRX talonSrxSetup(WPI_TalonSRX motor) {
-        //motor.setNeutralMode(NeutralMode.Brake);
+        // motor.setNeutralMode(NeutralMode.Brake);
         return motor;
     }
 
     private static CANSparkMax sparkMaxSetup(CANSparkMax motor) {
-        //motor.setIdleMode(IdleMode.kBrake);
+        // motor.setIdleMode(IdleMode.kBrake);
         motor.setSmartCurrentLimit(40);
-        //motor.setOpenLoopRampRate(0.5);
+        // motor.setOpenLoopRampRate(0.5);
         return motor;
     }
 
@@ -143,7 +144,16 @@ public class MotorSpecs {
         return ret;
     }
 
-    public static CANSparkMax makeSparkMaxes(MotorSpecs[] specs) {
+    public static Tuples.Two<SpeedController, CANEncoder> makeSparkMaxGroup(MotorSpecs[] specs) {
+        var main = specs[0].makeSparkMax();
+        var rest = new CANSparkMax[specs.length - 1];
+        for (var i = 1; i < specs.length; i++) {
+            rest[i] = specs[i].makeSparkMax();
+        }
+        return new Tuples.Two<>(new SpeedControllerGroup(main, rest), main.getEncoder());
+    }
+
+    public static CANSparkMax makeSparkMaxAndFollowers(MotorSpecs[] specs) {
         var main = specs[0].makeSparkMax();
         for (var i = 1; i < specs.length; i++) {
             specs[i].makeSparkMax().follow(main, specs[i].inverted ^ specs[0].inverted);
