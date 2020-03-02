@@ -82,12 +82,7 @@
             "port": 1
         }
     ],
-    "wheelPiston": [
-        [
-            0,
-            3
-        ]
-    ],
+    "wheelPiston": [],
     "wheelCounter": 2,
     "climbArm": [
         {

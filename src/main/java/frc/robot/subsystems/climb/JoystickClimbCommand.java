@@ -20,7 +20,8 @@ public class JoystickClimbCommand extends CommandBase {
             climb.retractArmPiston();
         } else {
             climb.setArm(MathUtils.deadZone(climb.container.copilot.getRawAxis(5), 0.1));
-            climb.setWinch(climb.container.copilot.getRawAxis(3));
+            climb.setWinch(MathUtils
+                    .signedSquare(climb.container.copilot.getRawAxis(3) - climb.container.copilot.getRawAxis(2)));
             if (climb.container.copilot.getRawButton(8)) {
                 climb.extendArmPiston();
             } else if (climb.container.copilot.getRawButton(7)) {

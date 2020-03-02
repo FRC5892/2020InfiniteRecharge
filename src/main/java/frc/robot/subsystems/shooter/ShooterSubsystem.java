@@ -16,7 +16,7 @@ import frc.robot.RobotMap;
 
 public class ShooterSubsystem extends SubsystemBase {
     private static final boolean TUNING_MODE = false;
-    private static final double FLYWHEEL_THRESHOLD = 15; // SPARK MAX speed units (rpm?)
+    private static final double FLYWHEEL_THRESHOLD = 30; // SPARK MAX speed units (rpm?)
 
     public final RobotContainer container;
     private final CANSparkMax flywheel;
