@@ -1,15 +1,17 @@
-package frc;
+package frc.robot.subsystems.limelight;
 
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-public class Limelight {
+public class Limelight extends SubsystemBase {
     private final NetworkTable table;
     private final NetworkTableEntry tv, tx, ty, ta, ledMode, camMode, pipeline;
 
     public Limelight() {
         this("limelight");
+        setDefaultCommand(new MaintainLimelightDefaults(this));       
     }
 
     public Limelight(String tableName) {

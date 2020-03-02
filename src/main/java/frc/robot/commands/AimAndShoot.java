@@ -11,7 +11,7 @@ import frc.robot.subsystems.shooter.RunShooter;
 public class AimAndShoot extends BuiltParallel {
     public AimAndShoot(RobotContainer container, boolean moveHood) {
         super(p -> {
-            p.add(new VisionAlignCommand(container.drive));
+            p.add(new VisionAlignCommand(container.drive, container.limelight));
             p.add(new SoloJoystickIntake(container.intake));
             p.add(new BuiltSequence(s -> {
                 s.add(new ResetHood(container.shooter));

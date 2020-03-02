@@ -19,7 +19,6 @@
             "type": "SparkMax",
             "port": 4
         },
-        
         {
             "type": "SparkMax",
             "port": 5

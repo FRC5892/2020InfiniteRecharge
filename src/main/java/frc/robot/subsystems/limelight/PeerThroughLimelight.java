@@ -1,13 +1,13 @@
-package frc.robot.commands;
+package frc.robot.subsystems.limelight;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.RobotContainer;
 
 public class PeerThroughLimelight extends CommandBase {
-    private final RobotContainer container;
+    private final Limelight limelight;
 
-    public PeerThroughLimelight(RobotContainer container) {
-        this.container = container;
+    public PeerThroughLimelight(Limelight limelight) {
+        this.limelight = limelight;
+        addRequirements(limelight);
     }
 
     @Override
@@ -18,12 +18,12 @@ public class PeerThroughLimelight extends CommandBase {
     @Override
     public void initialize() {
         //container.limelight.setLedMode(LEDMode.OFF);
-        container.limelight.setDriverCamera(true);
+        limelight.setDriverCamera(true);
     }
 
     @Override
     public void end(boolean interrupted) {
         //container.limelight.setLedMode(LEDMode.DEFAULT);
-        container.limelight.setDriverCamera(false);
+        limelight.setDriverCamera(false);
     }
 }

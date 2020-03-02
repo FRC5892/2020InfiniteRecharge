@@ -144,13 +144,25 @@ public class MotorSpecs {
         return ret;
     }
 
-    public static Tuples.Two<SpeedController, CANEncoder> makeSparkMaxGroup(MotorSpecs[] specs) {
+    private static Tuples.Two<SpeedControllerGroup, CANEncoder> _makeSparkMaxGroup(MotorSpecs[] specs) {
         var main = specs[0].makeSparkMax();
         var rest = new CANSparkMax[specs.length - 1];
         for (var i = 1; i < specs.length; i++) {
             rest[i] = specs[i].makeSparkMax();
         }
         return new Tuples.Two<>(new SpeedControllerGroup(main, rest), main.getEncoder());
+    }
+
+    public static Tuples.Two<SpeedController, CANEncoder> makeSparkMaxGroup(MotorSpecs[] specs) {
+        var ret = _makeSparkMaxGroup(specs);
+        return new Tuples.Two<>(ret.first, ret.second);
+    }
+
+    public static Tuples.Two<SpeedController, CANEncoder> makeSparkMaxGroup(MotorSpecs[] specs, String name,
+            SubsystemBase subsystem) {
+        var ret = _makeSparkMaxGroup(specs);
+        subsystem.addChild(name, ret.first);
+        return new Tuples.Two<>(ret.first, ret.second);
     }
 
     public static CANSparkMax makeSparkMaxAndFollowers(MotorSpecs[] specs) {
