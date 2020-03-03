@@ -148,7 +148,7 @@ public class MotorSpecs {
         var main = specs[0].makeSparkMax();
         var rest = new CANSparkMax[specs.length - 1];
         for (var i = 1; i < specs.length; i++) {
-            rest[i] = specs[i].makeSparkMax();
+            rest[i-1] = specs[i].makeSparkMax();
         }
         return new Tuples.Two<>(new SpeedControllerGroup(main, rest), main.getEncoder());
     }

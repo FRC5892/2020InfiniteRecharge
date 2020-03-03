@@ -25,6 +25,8 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.POVTrigger;
 import frc.robot.commands.AimAndShoot;
 import frc.robot.commands.BackUpAndAimAndShoot;
+import frc.robot.commands.autons.ShootAndMoveTowardsTrench;
+import frc.robot.commands.autons.ShootFromInFrontOfTrench;
 import frc.robot.commands.autons.UltraSimpleAuton;
 import frc.robot.subsystems.accumulator.AccumulatorSubsystem;
 import frc.robot.subsystems.climb.ClimbSubsystem;
@@ -95,8 +97,10 @@ public class RobotContainer {
 
     autonChooser.setDefaultOption("Simple Auto (Fwd)", new UltraSimpleAuton(this, -0.6));
     autonChooser.addOption("Simple Auto (Rev)", new UltraSimpleAuton(this, 0.6));
+    autonChooser.addOption("Shoot & Go Trench", new ShootAndMoveTowardsTrench(this));
+    autonChooser.addOption("Shoot By Trench & Go", new ShootFromInFrontOfTrench(this));
     var tab = Shuffleboard.getTab("Driver Dashboard");
-    tab.add("Auto", autonChooser).withSize(2, 1);
+    tab.add("Auto", autonChooser).withPosition(1, 1).withSize(2, 1);
     hoodZeroing = tab.add("Hood Zeroing", true).withWidget(BuiltInWidgets.kToggleSwitch).withPosition(1, 2).getEntry();
   }
 

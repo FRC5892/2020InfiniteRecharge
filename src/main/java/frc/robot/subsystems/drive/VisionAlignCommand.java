@@ -9,9 +9,7 @@ public class VisionAlignCommand extends PIDCommand {
     private final Limelight limelight;
 
     public VisionAlignCommand(DriveSubsystem drive, Limelight limelight) {
-        super(new FilePIDController("/home/lvuser/deploy/PID/VisionAlign.txt"), () -> {
-            return limelight.xOffset();
-        }, 0, output -> {
+        super(new FilePIDController("/home/lvuser/deploy/PID/VisionAlign.txt"), limelight::xOffset, 0, output -> {
             drive.arcadeDrive(0, output);
         }, drive, limelight);
         this.limelight = limelight;

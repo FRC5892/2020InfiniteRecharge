@@ -32,8 +32,7 @@ public class RunShooter extends CommandBase {
         } else {
             shooter.stopHood();
             if (shooter.flywheelAtSetpoint()) {
-                accumulator.setBelt(0.5);
-                accumulator.setKicker(0.85);
+                accumulator.set(0.85);
             } else {
                 accumulator.set(accumulator.seesBall() ? 0 : 0.5);
             }
