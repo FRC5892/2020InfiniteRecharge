@@ -3,29 +3,35 @@
     "leftDrive": [
         {
             "type": "SparkMax",
-            "port": 1
+            "port": 1,
+            "mode": "Drivelike"
         },
         {
             "type": "SparkMax",
-            "port": 2
+            "port": 2,
+            "mode": "Drivelike"
         },
         {
             "type": "SparkMax",
-            "port": 3
+            "port": 3,
+            "mode": "Drivelike"
         }
     ],
     "rightDrive": [
         {
             "type": "SparkMax",
-            "port": 4
+            "port": 4,
+            "mode": "Drivelike"
         },
         {
             "type": "SparkMax",
-            "port": 5
+            "port": 5,
+            "mode": "Drivelike"
         },
         {
             "type": "SparkMax",
-            "port": 6
+            "port": 6,
+            "mode": "Drivelike"
         }
     ],
     "intakeRollers": [
@@ -58,12 +64,14 @@
     "shooterFlywheel": [
         {
             "type": "SparkMax",
-            "port": 7
+            "port": 7,
+            "mode": "Coast"
         },
         {
             "type": "SparkMax",
             "port": 8,
-            "inverted": true
+            "inverted": true,
+            "mode": "Coast"
         }
     ],
     "shooterHood": [

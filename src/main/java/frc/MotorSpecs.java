@@ -1,11 +1,14 @@
 package frc;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 import com.revrobotics.CANEncoder;
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj.SpeedController;
@@ -17,21 +20,55 @@ public class MotorSpecs {
     public String type;
     public int port;
     public boolean inverted;
+    public String mode;
 
-    private static WPI_VictorSPX victorSpxSetup(WPI_VictorSPX motor) {
-        // motor.setNeutralMode(NeutralMode.Brake);
+    private static ArrayList<WPI_VictorSPX> drivelikeVictorSPXs = new ArrayList<>();
+    private static ArrayList<WPI_TalonSRX> drivelikeTalonSRXs = new ArrayList<>();
+    private static ArrayList<CANSparkMax> drivelikeSparkMaxes = new ArrayList<>();
+
+    private static WPI_VictorSPX victorSpxSetup(WPI_VictorSPX motor, String mode) {
+        switch (mode) {
+        case "Brake":
+            motor.setNeutralMode(NeutralMode.Brake);
+            break;
+        case "Coast":
+            motor.setNeutralMode(NeutralMode.Coast);
+            break;
+        case "Drivelike":
+            drivelikeVictorSPXs.add(motor);
+            break;
+        }
         return motor;
     }
 
-    private static WPI_TalonSRX talonSrxSetup(WPI_TalonSRX motor) {
-        // motor.setNeutralMode(NeutralMode.Brake);
+    private static WPI_TalonSRX talonSrxSetup(WPI_TalonSRX motor, String mode) {
+        switch (mode) {
+        case "Brake":
+            motor.setNeutralMode(NeutralMode.Brake);
+            break;
+        case "Coast":
+            motor.setNeutralMode(NeutralMode.Coast);
+            break;
+        case "Drivelike":
+            drivelikeTalonSRXs.add(motor);
+            break;
+        }
         return motor;
     }
 
-    private static CANSparkMax sparkMaxSetup(CANSparkMax motor) {
-        // motor.setIdleMode(IdleMode.kBrake);
+    private static CANSparkMax sparkMaxSetup(CANSparkMax motor, String mode) {
+        switch (mode) {
+        case "Brake":
+            motor.setIdleMode(IdleMode.kBrake);
+            break;
+        case "Coast":
+            motor.setIdleMode(IdleMode.kCoast);
+            break;
+        case "Drivelike":
+            drivelikeSparkMaxes.add(motor);
+            break;
+        }
         motor.setSmartCurrentLimit(40);
-        // motor.setOpenLoopRampRate(0.5);
         return motor;
     }
 
@@ -58,13 +95,13 @@ public class MotorSpecs {
             ret = new VictorSP(port);
             break;
         case "VictorSPX":
-            ret = victorSpxSetup(new WPI_VictorSPX(port));
+            ret = victorSpxSetup(new WPI_VictorSPX(port), mode);
             break;
         case "TalonSRX":
-            ret = talonSrxSetup(new WPI_TalonSRX(port));
+            ret = talonSrxSetup(new WPI_TalonSRX(port), mode);
             break;
         case "SparkMax":
-            ret = sparkMaxSetup(new CANSparkMax(port, MotorType.kBrushless));
+            ret = sparkMaxSetup(new CANSparkMax(port, MotorType.kBrushless), mode);
             break;
         case "Dummy":
             ret = new DummySpeedController();
@@ -78,7 +115,7 @@ public class MotorSpecs {
 
     public WPI_TalonSRX makeTalonSRX() {
         if (type.equals("TalonSRX")) {
-            return setInverted(talonSrxSetup(new WPI_TalonSRX(port)), inverted);
+            return setInverted(talonSrxSetup(new WPI_TalonSRX(port), mode), inverted);
         } else {
             throw new MotorError("not a Talon SRX");
         }
@@ -87,10 +124,10 @@ public class MotorSpecs {
     public void makeTalonFollower(WPI_TalonSRX main) {
         switch (type) {
         case "VictorSPX":
-            setInverted(victorSpxSetup(new WPI_VictorSPX(port)), inverted).follow(main);
+            setInverted(victorSpxSetup(new WPI_VictorSPX(port), mode), inverted).follow(main);
             break;
         case "TalonSRX":
-            setInverted(talonSrxSetup(new WPI_TalonSRX(port)), inverted).follow(main);
+            setInverted(talonSrxSetup(new WPI_TalonSRX(port), mode), inverted).follow(main);
             break;
         default:
             throw new MotorError("not a Victor SPX or Talon SRX");
@@ -99,7 +136,7 @@ public class MotorSpecs {
 
     public CANSparkMax makeSparkMax() {
         if (type.equals("SparkMax")) {
-            return setInverted(sparkMaxSetup(new CANSparkMax(port, MotorType.kBrushless)), inverted);
+            return setInverted(sparkMaxSetup(new CANSparkMax(port, MotorType.kBrushless), mode), inverted);
         } else {
             throw new MotorError("not a SPARK MAX");
         }
@@ -148,7 +185,7 @@ public class MotorSpecs {
         var main = specs[0].makeSparkMax();
         var rest = new CANSparkMax[specs.length - 1];
         for (var i = 1; i < specs.length; i++) {
-            rest[i-1] = specs[i].makeSparkMax();
+            rest[i - 1] = specs[i].makeSparkMax();
         }
         return new Tuples.Two<>(new SpeedControllerGroup(main, rest), main.getEncoder());
     }
@@ -171,6 +208,30 @@ public class MotorSpecs {
             specs[i].makeSparkMax().follow(main, specs[i].inverted ^ specs[0].inverted);
         }
         return main;
+    }
+
+    public static void coastDrivelikes() {
+        for (var m : drivelikeVictorSPXs) {
+            m.setNeutralMode(NeutralMode.Coast);
+        }
+        for (var m : drivelikeTalonSRXs) {
+            m.setNeutralMode(NeutralMode.Coast);
+        }
+        for (var m : drivelikeSparkMaxes) {
+            m.setIdleMode(IdleMode.kCoast);
+        }
+    }
+
+    public static void brakeDrivelikes() {
+        for (var m : drivelikeVictorSPXs) {
+            m.setNeutralMode(NeutralMode.Brake);
+        }
+        for (var m : drivelikeTalonSRXs) {
+            m.setNeutralMode(NeutralMode.Brake);
+        }
+        for (var m : drivelikeSparkMaxes) {
+            m.setIdleMode(IdleMode.kBrake);
+        }
     }
 
     public static class MotorError extends Error {

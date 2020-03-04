@@ -20,6 +20,14 @@
                 },
                 "inverted": {
                     "type": "boolean"
+                },
+                "mode": {
+                    "type": "string",
+                    "enum": [
+                        "Brake",
+                        "Coast",
+                        "Drivelike"
+                    ]
                 }
             },
             "required": [
