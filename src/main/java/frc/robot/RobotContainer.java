@@ -8,6 +8,7 @@
 package frc.robot;
 
 import java.io.File;
+import java.util.Map;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -66,7 +67,7 @@ public class RobotContainer {
   public final Limelight limelight;
 
   private final SendableChooser<Command> autonChooser = new SendableChooser<>();
-  private final NetworkTableEntry hoodZeroing;
+  private final NetworkTableEntry hoodZeroing, pressure;
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -95,13 +96,16 @@ public class RobotContainer {
     // Configure the button bindings
     configureButtonBindings();
 
+    // Set up autonomous options and Shuffleboard
     autonChooser.setDefaultOption("Simple Auto (Fwd)", new UltraSimpleAuton(this, -0.6));
     autonChooser.addOption("Simple Auto (Rev)", new UltraSimpleAuton(this, 0.6));
     autonChooser.addOption("Shoot & Go Trench", new ShootAndMoveTowardsTrench(this));
     autonChooser.addOption("Shoot By Trench & Go", new ShootFromInFrontOfTrench(this));
     var tab = Shuffleboard.getTab("Driver Dashboard");
-    tab.add("Auto", autonChooser).withPosition(1, 1).withSize(2, 1);
-    hoodZeroing = tab.add("Hood Zeroing", true).withWidget(BuiltInWidgets.kToggleSwitch).withPosition(1, 2).getEntry();
+    tab.add("Auto", autonChooser).withPosition(0, 0).withSize(2, 1);
+    hoodZeroing = tab.add("Hood Zeroing", true).withWidget(BuiltInWidgets.kToggleSwitch).withPosition(0, 1).getEntry();
+    pressure = tab.add("Pressure", 0).withWidget(BuiltInWidgets.kNumberBar)
+        .withProperties(Map.of("Min", 0, "Max", 1)).withPosition(2, 0).withSize(2, 1).getEntry();
   }
 
   /**
@@ -134,5 +138,9 @@ public class RobotContainer {
 
   public boolean hoodZeroing() {
     return hoodZeroing.getBoolean(true);
+  }
+
+  public void updatePressure(double value) {
+    pressure.setNumber(value);
   }
 }
