@@ -10,7 +10,7 @@ public class BackUpAndAimAndShoot extends BuiltSequence {
         super(s -> {
             s.add(new ResetEncoders(container.drive));
             s.add(new AutoTankDrive(container.drive, 0.1, 0.1, 4).withTimeout(0.5));
-            s.add(new AimAndShoot(container, false));
+            s.add(new AimAndShoot(container, 0));
         });
     }
 }

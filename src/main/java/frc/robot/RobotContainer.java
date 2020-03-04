@@ -67,7 +67,7 @@ public class RobotContainer {
   public final Limelight limelight;
 
   private final SendableChooser<Command> autonChooser = new SendableChooser<>();
-  private final NetworkTableEntry hoodZeroing, pressure;
+  private final NetworkTableEntry pressure;
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -103,7 +103,6 @@ public class RobotContainer {
     autonChooser.addOption("Shoot By Trench & Go", new ShootFromInFrontOfTrench(this));
     var tab = Shuffleboard.getTab("Driver Dashboard");
     tab.add("Auto", autonChooser).withPosition(0, 0).withSize(2, 1);
-    hoodZeroing = tab.add("Hood Zeroing", true).withWidget(BuiltInWidgets.kToggleSwitch).withPosition(0, 1).getEntry();
     pressure = tab.add("Pressure", 0).withWidget(BuiltInWidgets.kNumberBar)
         .withProperties(Map.of("Min", 0, "Max", 1)).withPosition(2, 0).withSize(2, 1).getEntry();
   }
@@ -116,7 +115,7 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
     new JoystickButton(pilot, 5).whileActiveOnce(new PeerThroughLimelight(limelight));
-    new JoystickButton(pilot, 1).whenActive(new AimAndShoot(this, true));
+    new JoystickButton(pilot, 1).whenActive(new AimAndShoot(this, 50));
     new POVTrigger(pilot, 180).whenActive(new BackUpAndAimAndShoot(this));
     new POVTrigger(copilot, 0).whenActive(new SetWheelPiston(wheel, true));
     new POVTrigger(copilot, 180).whenActive(new SetWheelPiston(wheel, false));
@@ -134,10 +133,6 @@ public class RobotContainer {
   public Command getAutonomousCommand() {
     // An ExampleCommand will run in autonomous
     return autonChooser.getSelected();
-  }
-
-  public boolean hoodZeroing() {
-    return hoodZeroing.getBoolean(true);
   }
 
   public void updatePressure(double value) {

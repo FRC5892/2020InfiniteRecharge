@@ -25,7 +25,7 @@ public class ResetHood extends CommandBase {
 
     @Override
     public void execute() {
-        if (!shooter.hoodAtBaseline() && shooter.container.hoodZeroing()) {
+        if (!shooter.hoodAtBaseline()) {
             shooter.setHoodSpeed(speed);
         } else {
             shooter.stopHood();
@@ -34,7 +34,7 @@ public class ResetHood extends CommandBase {
 
     @Override
     public boolean isFinished() {
-        return end && (shooter.hoodAtBaseline() || !(shooter.container.hoodZeroing()));
+        return end && shooter.hoodAtBaseline();
     }
 
     @Override

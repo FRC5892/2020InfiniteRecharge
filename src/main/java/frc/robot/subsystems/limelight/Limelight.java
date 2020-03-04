@@ -3,6 +3,7 @@ package frc.robot.subsystems.limelight;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Limelight extends SubsystemBase {
@@ -65,10 +66,15 @@ public class Limelight extends SubsystemBase {
 
     // FIXME: mounting measurements are guesses, take actual measurements
     private static final double MOUNTING_ANGLE = 30; // degrees
-    private static final double MOUNTING_HEIGHT = 24; // inches
+    private static final double MOUNTING_HEIGHT = 18; // inches
     private static final double TARGET_HEIGHT = 98.25; // inches
 
     public double estimateTargetDistance() {
         return (TARGET_HEIGHT - MOUNTING_HEIGHT) / Math.tan(Math.toRadians(yOffset() + MOUNTING_ANGLE));
+    }
+
+    @Override
+    public void periodic() {
+        SmartDashboard.putNumber("Limelight Distance", estimateTargetDistance());
     }
 }
