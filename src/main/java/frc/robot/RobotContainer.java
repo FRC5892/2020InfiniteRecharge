@@ -24,7 +24,7 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.POVTrigger;
-import frc.robot.commands.AimAndShoot;
+import frc.robot.commands.AimAndShootContextual;
 import frc.robot.commands.BackUpAndAimAndShoot;
 import frc.robot.commands.autons.ShootAndMoveTowardsTrench;
 import frc.robot.commands.autons.ShootFromInFrontOfTrench;
@@ -115,7 +115,7 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
     new JoystickButton(pilot, 5).whileActiveOnce(new PeerThroughLimelight(limelight));
-    new JoystickButton(pilot, 1).whenActive(new AimAndShoot(this, 50));
+    new JoystickButton(pilot, 1).whenActive(new AimAndShootContextual(this));
     new POVTrigger(pilot, 180).whenActive(new BackUpAndAimAndShoot(this));
     new POVTrigger(copilot, 0).whenActive(new SetWheelPiston(wheel, true));
     new POVTrigger(copilot, 180).whenActive(new SetWheelPiston(wheel, false));
