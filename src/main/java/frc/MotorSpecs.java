@@ -11,6 +11,7 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.VictorSP;
@@ -93,6 +94,9 @@ public class MotorSpecs {
         switch (type) {
         case "VictorSP":
             ret = new VictorSP(port);
+            if (mode != null) {
+                DriverStation.reportWarning("Unusable mode specified for PWM controller " + port, false);
+            }
             break;
         case "VictorSPX":
             ret = victorSpxSetup(new WPI_VictorSPX(port), mode);

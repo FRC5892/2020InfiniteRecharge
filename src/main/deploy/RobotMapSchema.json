@@ -33,7 +33,8 @@
             "required": [
                 "type",
                 "port"
-            ]
+            ],
+            "additionalProperties": false
         },
         "MotorSpecs[]": {
             "type": "array",
@@ -56,6 +57,9 @@
     },
     "type": "object",
     "properties": {
+        "$schema": {
+            "type": "string"
+        },
         "leftDrive": {
             "$ref": "#/definitions/MotorSpecs[]"
         },
@@ -141,7 +145,5 @@
         "climbPiston",
         "pressureSensor"
     ],
-    "additionalProperties": {
-        "type": "string"
-    }
+    "additionalProperties": false
 }
