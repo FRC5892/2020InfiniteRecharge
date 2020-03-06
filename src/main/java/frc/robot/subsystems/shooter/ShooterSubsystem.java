@@ -54,7 +54,7 @@ public class ShooterSubsystem extends SubsystemBase {
         hoodController = new FilePIDController("/home/lvuser/deploy/PID/Hood.txt");
         addChild("Hood Controller", hoodController);
         hoodController.setTolerance(HOOD_THRESHOLD);
-        
+
         setDefaultCommand(new ResetHood(this, false));
     }
 
@@ -103,11 +103,12 @@ public class ShooterSubsystem extends SubsystemBase {
     }
 
     public boolean flywheelAtSetpoint() {
-        return !Double.isNaN(flywheelSetpoint) && Math.abs(flywheel.getEncoder().getVelocity() - flywheelSetpoint) < FLYWHEEL_THRESHOLD;
+        return !Double.isNaN(flywheelSetpoint)
+                && Math.abs(flywheel.getEncoder().getVelocity() - flywheelSetpoint) < FLYWHEEL_THRESHOLD;
     }
 
     public boolean hoodAtSetpoint() {
-        return hoodControllerEnabled && hoodController.atSetpoint();
+        return hoodControllerEnabled && getHoodCounter() > (hoodController.getSetpoint() - HOOD_THRESHOLD);
     }
 
     public boolean atSetpoints() {

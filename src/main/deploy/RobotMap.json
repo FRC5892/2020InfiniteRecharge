@@ -94,7 +94,8 @@
     "climbArm": [
         {
             "type": "VictorSP",
-            "port": 0
+            "port": 0,
+            "inverted": true
         }
     ],
     "climbWinch": [
