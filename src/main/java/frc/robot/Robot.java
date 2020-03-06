@@ -8,6 +8,7 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.AnalogInput;
+import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
@@ -22,6 +23,8 @@ import frc.MotorSpecs;
  * project.
  */
 public class Robot extends TimedRobot {
+  private static final boolean DISABLE_COMPRESSOR = true;
+
   private Command autonomousCommand;
 
   private RobotContainer robotContainer;
@@ -32,6 +35,7 @@ public class Robot extends TimedRobot {
    * for any initialization code.
    */
   @Override
+  @SuppressWarnings("resource")
   public void robotInit() {
     // Instantiate our RobotContainer. This will perform all our button bindings,
     // and put our
@@ -42,6 +46,10 @@ public class Robot extends TimedRobot {
 
     PortForwarder.add(5800, "10.58.92.11", 5800);
     PortForwarder.add(5801, "10.58.92.11", 5801);
+
+    if (DISABLE_COMPRESSOR) {
+      new Compressor().setClosedLoopControl(false);
+    }
   }
 
   private static final double PRESSURE_READING_0_PSI = 400;

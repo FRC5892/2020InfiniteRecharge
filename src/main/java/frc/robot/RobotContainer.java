@@ -103,8 +103,8 @@ public class RobotContainer {
     autonChooser.addOption("Shoot By Trench & Go", new ShootFromInFrontOfTrench(this));
     var tab = Shuffleboard.getTab("Driver Dashboard");
     tab.add("Auto", autonChooser).withPosition(0, 0).withSize(2, 1);
-    pressure = tab.add("Pressure", 0).withWidget(BuiltInWidgets.kNumberBar)
-        .withProperties(Map.of("Min", 0, "Max", 1)).withPosition(2, 0).withSize(2, 1).getEntry();
+    pressure = tab.add("Pressure", 0).withWidget(BuiltInWidgets.kNumberBar).withProperties(Map.of("Min", 0, "Max", 1))
+        .withPosition(2, 0).withSize(2, 1).getEntry();
   }
 
   /**

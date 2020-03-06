@@ -7,14 +7,15 @@ public class RunShooter extends CommandBase {
     private final AccumulatorSubsystem accumulator;
     private final ShooterSubsystem shooter;
 
-    private final double flywheelSetpoint, hoodSetpoint;
+    private final double flywheelSetpoint, hoodSetpoint, flywheelThreshold;
 
     public RunShooter(AccumulatorSubsystem accumulator, ShooterSubsystem shooter, double flywheelSetpoint,
-            double hoodSetpoint) {
+            double hoodSetpoint, double flywheelThreshold) {
         this.accumulator = accumulator;
         this.shooter = shooter;
         this.flywheelSetpoint = flywheelSetpoint;
         this.hoodSetpoint = hoodSetpoint;
+        this.flywheelThreshold = flywheelThreshold;
         addRequirements(accumulator, shooter);
     }
 
@@ -26,7 +27,7 @@ public class RunShooter extends CommandBase {
 
     @Override
     public void execute() {
-        if (shooter.atSetpoints()) {
+        if (shooter.hoodAtSetpoint() && Math.abs(flywheelSetpoint - shooter.getFlywheelSpeed()) < flywheelThreshold) {
             accumulator.setBelt(0.75);
             accumulator.setKicker(0.85);
         } else if (!accumulator.seesBall()) {

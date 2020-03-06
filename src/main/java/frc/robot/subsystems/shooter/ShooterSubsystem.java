@@ -18,7 +18,6 @@ import frc.robot.RobotMap;
 
 public class ShooterSubsystem extends SubsystemBase {
     private static final boolean TUNING_MODE = false;
-    private static final double FLYWHEEL_THRESHOLD = 30; // SPARK MAX speed units (rpm?)
     private static final double HOOD_THRESHOLD = 2;
 
     public final RobotContainer container;
@@ -28,7 +27,7 @@ public class ShooterSubsystem extends SubsystemBase {
     private final DigitalInput lowerLimit, upperLimit;
     private final PIDController hoodController;
 
-    private double flywheelSetpoint = Double.NaN;
+    //private double flywheelSetpoint = Double.NaN;
     private boolean hoodControllerEnabled;
 
     public ShooterSubsystem(RobotMap map, RobotContainer container) {
@@ -60,17 +59,17 @@ public class ShooterSubsystem extends SubsystemBase {
 
     public void setFlywheelSpeed(double speed) {
         flywheel.set(speed);
-        flywheelSetpoint = Double.NaN;
+        //flywheelSetpoint = Double.NaN;
     }
 
     public void setFlywheelSetpoint(double setpoint) {
         flywheel.getPIDController().setReference(setpoint, ControlType.kVelocity);
-        flywheelSetpoint = setpoint;
+        //flywheelSetpoint = setpoint;
     }
 
     public void stopFlywheel() {
         flywheel.stopMotor();
-        flywheelSetpoint = Double.NaN;
+        //flywheelSetpoint = Double.NaN;
     }
 
     public void setHoodSpeed(double speed) {
@@ -102,17 +101,13 @@ public class ShooterSubsystem extends SubsystemBase {
         return upperLimit.get();
     }
 
-    public boolean flywheelAtSetpoint() {
-        return !Double.isNaN(flywheelSetpoint)
-                && Math.abs(flywheel.getEncoder().getVelocity() - flywheelSetpoint) < FLYWHEEL_THRESHOLD;
+    public double getFlywheelSpeed() {
+        return flywheel.getEncoder().getVelocity();
     }
 
     public boolean hoodAtSetpoint() {
-        return hoodControllerEnabled && getHoodCounter() > (hoodController.getSetpoint() - HOOD_THRESHOLD);
-    }
-
-    public boolean atSetpoints() {
-        return flywheelAtSetpoint() && hoodAtSetpoint();
+        return hoodControllerEnabled
+                && (getHoodCounter() > (hoodController.getSetpoint() - HOOD_THRESHOLD) || hoodAtExtent());
     }
 
     @Override

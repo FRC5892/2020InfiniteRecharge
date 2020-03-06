@@ -7,7 +7,7 @@ import frc.robot.subsystems.limelight.Limelight;
 public class RunShooterContextual extends ConditionalCommand {
 
     public RunShooterContextual(AccumulatorSubsystem accumulator, ShooterSubsystem shooter, Limelight limelight) {
-        super(new RunShooter(accumulator, shooter, 4000, 50), new RunShooter(accumulator, shooter, 4000, 45),
+        super(new RunShooter(accumulator, shooter, 4000, 54, 20), new RunShooter(accumulator, shooter, 4000, 45, 30),
                 () -> limelight.estimateTargetDistance() > 200);
     }
 }
