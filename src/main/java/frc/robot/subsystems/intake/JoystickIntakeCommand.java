@@ -21,11 +21,11 @@ public class JoystickIntakeCommand extends CommandBase {
     public void execute() {
         var rollerSpeed = intake.container.pilot.getRawAxis(3) - intake.container.pilot.getRawAxis(2);
         intake.setRollers(rollerSpeed * INTAKE_SCALE);
+        accumulator.setBelt(rollerSpeed * ACC_BELT_SCALE);
         if (rollerSpeed > 0 && !accumulator.seesBall()) {
-            accumulator.setBelt(rollerSpeed * ACC_BELT_SCALE);
             accumulator.setKicker(rollerSpeed * ACC_KICKER_SCALE);
         } else {
-            accumulator.set(0);
+            accumulator.setKicker(0);
         }
         if (rollerSpeed > 0.1) {
             intake.extendPistons();

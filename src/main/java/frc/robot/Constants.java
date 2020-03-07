@@ -16,4 +16,6 @@ package frc.robot;
  * constants are needed, to reduce verbosity.
  */
 public final class Constants {
+   public static final double HOOD_SETPOINT_INITIATION_LINE = 48;
+   public static final double HOOD_SETPOINT_TRENCH = 54;
 }

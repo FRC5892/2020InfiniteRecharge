@@ -23,7 +23,7 @@ import frc.MotorSpecs;
  * project.
  */
 public class Robot extends TimedRobot {
-  private static final boolean DISABLE_COMPRESSOR = true;
+  private static final boolean DISABLE_COMPRESSOR = false;
 
   private Command autonomousCommand;
 

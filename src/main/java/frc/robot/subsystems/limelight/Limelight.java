@@ -64,12 +64,14 @@ public class Limelight extends SubsystemBase {
         this.pipeline.setDouble(pipeline);
     }
 
-    // FIXME: mounting measurements are guesses, take actual measurements
     private static final double MOUNTING_ANGLE = 30; // degrees
     private static final double MOUNTING_HEIGHT = 18; // inches
     private static final double TARGET_HEIGHT = 98.25; // inches
 
     public double estimateTargetDistance() {
+        if (!targetValid()) {
+            return -1;
+        }
         return (TARGET_HEIGHT - MOUNTING_HEIGHT) / Math.tan(Math.toRadians(yOffset() + MOUNTING_ANGLE));
     }
 

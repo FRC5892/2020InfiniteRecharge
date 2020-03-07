@@ -4,6 +4,7 @@ import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.built_groups.BuiltDeadline;
 import frc.built_groups.BuiltParallel;
 import frc.built_groups.BuiltSequence;
+import frc.robot.Constants;
 import frc.robot.RobotContainer;
 import frc.robot.commands.AimAndShoot;
 import frc.robot.subsystems.drive.AutoTankDrive;
@@ -14,7 +15,7 @@ import frc.robot.subsystems.shooter.SuperHoodReset;
 public class ShootFromInFrontOfTrench extends BuiltSequence {
     public ShootFromInFrontOfTrench(RobotContainer container) {
         super(s -> {
-            s.add(new AimAndShoot(container, 4000, 45, 30).withTimeout(5));
+            s.add(new AimAndShoot(container, 4000, Constants.HOOD_SETPOINT_INITIATION_LINE, 30).withTimeout(5));
             s.add(new BuiltParallel(p -> {
                 p.add(new SuperHoodReset(container.shooter));
                 p.add(new BuiltSequence(s1 -> {
