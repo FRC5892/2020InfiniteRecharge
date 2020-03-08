@@ -24,6 +24,7 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.POVTrigger;
+import frc.robot.commands.AimAndShoot;
 import frc.robot.commands.AimAndShootContextual;
 import frc.robot.commands.BackUpAndAimAndShoot;
 import frc.robot.commands.autons.ShootAndMoveTowardsTrench;
@@ -37,10 +38,6 @@ import frc.robot.subsystems.intake.JoystickIntakeCommand;
 import frc.robot.subsystems.limelight.Limelight;
 import frc.robot.subsystems.limelight.PeerThroughLimelight;
 import frc.robot.subsystems.shooter.ShooterSubsystem;
-import frc.robot.subsystems.wheel.SetWheelPiston;
-import frc.robot.subsystems.wheel.WheelCommandGroup;
-import frc.robot.subsystems.wheel.WheelPositionControl;
-import frc.robot.subsystems.wheel.WheelRotationControl;
 import frc.robot.subsystems.wheel.WheelSubsystem;
 
 /**
@@ -67,7 +64,7 @@ public class RobotContainer {
   public final Limelight limelight;
 
   private final SendableChooser<Command> autonChooser = new SendableChooser<>();
-  private final NetworkTableEntry pressure;
+  private final NetworkTableEntry pressure, hoodZeroing;
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -105,6 +102,7 @@ public class RobotContainer {
     tab.add("Auto", autonChooser).withPosition(0, 0).withSize(2, 1);
     pressure = tab.add("Pressure", 0).withWidget(BuiltInWidgets.kNumberBar).withProperties(Map.of("Min", 0, "Max", 1))
         .withPosition(2, 0).withSize(2, 1).getEntry();
+    hoodZeroing = tab.add("Hood Zeroing", true).withWidget(BuiltInWidgets.kToggleSwitch).withPosition(0, 1).getEntry();
   }
 
   /**
@@ -116,11 +114,12 @@ public class RobotContainer {
   private void configureButtonBindings() {
     new JoystickButton(pilot, 5).whileActiveOnce(new PeerThroughLimelight(limelight));
     new JoystickButton(pilot, 1).whenActive(new AimAndShootContextual(this));
+    new JoystickButton(pilot, 3).whenActive(new AimAndShoot(this, 4000, -1, 30));
     new POVTrigger(pilot, 180).whenActive(new BackUpAndAimAndShoot(this));
-    new POVTrigger(copilot, 0).whenActive(new SetWheelPiston(wheel, true));
-    new POVTrigger(copilot, 180).whenActive(new SetWheelPiston(wheel, false));
-    new JoystickButton(copilot, 1).whenActive(new WheelCommandGroup(drive, wheel, new WheelRotationControl(wheel, .5)));
-    new JoystickButton(copilot, 2).whenActive(new WheelCommandGroup(drive, wheel, new WheelPositionControl(wheel, .5)));
+    //new POVTrigger(copilot, 0).whenActive(new SetWheelPiston(wheel, true));
+    //new POVTrigger(copilot, 180).whenActive(new SetWheelPiston(wheel, false));
+    //new JoystickButton(copilot, 1).whenActive(new WheelCommandGroup(drive, wheel, new WheelRotationControl(wheel, .5)));
+    //new JoystickButton(copilot, 2).whenActive(new WheelCommandGroup(drive, wheel, new WheelPositionControl(wheel, .5)));
     new JoystickButton(pilot, 9).and(new JoystickButton(pilot, 10))
         .whenActive(new InstantCommand(() -> CommandScheduler.getInstance().cancelAll()));
   }
@@ -137,5 +136,9 @@ public class RobotContainer {
 
   public void updatePressure(double value) {
     pressure.setNumber(value);
+  }
+
+  public boolean hoodZeroing() {
+    return hoodZeroing.getBoolean(true);
   }
 }

@@ -17,7 +17,7 @@ import frc.robot.RobotContainer;
 import frc.robot.RobotMap;
 
 public class ShooterSubsystem extends SubsystemBase {
-    private static final boolean TUNING_MODE = false;
+    private static final boolean TUNING_MODE = true;
     private static final double HOOD_THRESHOLD = 2;
 
     public final RobotContainer container;
@@ -27,7 +27,7 @@ public class ShooterSubsystem extends SubsystemBase {
     private final DigitalInput lowerLimit, upperLimit;
     private final PIDController hoodController;
 
-    //private double flywheelSetpoint = Double.NaN;
+    // private double flywheelSetpoint = Double.NaN;
     private boolean hoodControllerEnabled;
 
     public ShooterSubsystem(RobotMap map, RobotContainer container) {
@@ -59,17 +59,17 @@ public class ShooterSubsystem extends SubsystemBase {
 
     public void setFlywheelSpeed(double speed) {
         flywheel.set(speed);
-        //flywheelSetpoint = Double.NaN;
+        // flywheelSetpoint = Double.NaN;
     }
 
     public void setFlywheelSetpoint(double setpoint) {
         flywheel.getPIDController().setReference(setpoint, ControlType.kVelocity);
-        //flywheelSetpoint = setpoint;
+        // flywheelSetpoint = setpoint;
     }
 
     public void stopFlywheel() {
         flywheel.stopMotor();
-        //flywheelSetpoint = Double.NaN;
+        // flywheelSetpoint = Double.NaN;
     }
 
     public void setHoodSpeed(double speed) {
@@ -106,8 +106,8 @@ public class ShooterSubsystem extends SubsystemBase {
     }
 
     public boolean hoodAtSetpoint() {
-        return hoodControllerEnabled
-                && (getHoodCounter() > (hoodController.getSetpoint() - HOOD_THRESHOLD) || hoodAtExtent());
+        return hoodControllerEnabled && (getHoodCounter() > (hoodController.getSetpoint() - HOOD_THRESHOLD)
+                || hoodAtExtent() || !container.hoodZeroing());
     }
 
     @Override
@@ -115,7 +115,7 @@ public class ShooterSubsystem extends SubsystemBase {
         if (hoodAtBaseline()) {
             hoodCounter.reset();
         }
-        if (hoodControllerEnabled) {
+        if (hoodControllerEnabled && container.hoodZeroing()) {
             var hoodSpeed = hoodController.calculate(getHoodCounter());
             if (hoodAtExtent() || hoodSpeed < 0) {
                 hood.set(0);

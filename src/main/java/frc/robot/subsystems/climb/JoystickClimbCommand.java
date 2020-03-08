@@ -1,6 +1,5 @@
 package frc.robot.subsystems.climb;
 
-import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.MathUtils;
 
@@ -14,19 +13,13 @@ public class JoystickClimbCommand extends CommandBase {
 
     @Override
     public void execute() {
-        if (DriverStation.getInstance().isFMSAttached() && DriverStation.getInstance().getMatchTime() > 30) {
-            climb.setArm(0);
-            climb.setWinch(0);
+        climb.setArm(MathUtils.signedSquare(MathUtils.deadZone(climb.container.copilot.getRawAxis(5), 0.1)));
+        climb.setWinch(
+                MathUtils.signedSquare(climb.container.copilot.getRawAxis(3) - climb.container.copilot.getRawAxis(2)));
+        if (climb.container.copilot.getRawButton(8)) {
+            climb.extendArmPiston();
+        } else if (climb.container.copilot.getRawButton(7)) {
             climb.retractArmPiston();
-        } else {
-            climb.setArm(MathUtils.signedSquare(MathUtils.deadZone(climb.container.copilot.getRawAxis(5), 0.1)));
-            climb.setWinch(MathUtils
-                    .signedSquare(climb.container.copilot.getRawAxis(3) - climb.container.copilot.getRawAxis(2)));
-            if (climb.container.copilot.getRawButton(8)) {
-                climb.extendArmPiston();
-            } else if (climb.container.copilot.getRawButton(7)) {
-                climb.retractArmPiston();
-            }
         }
     }
 }

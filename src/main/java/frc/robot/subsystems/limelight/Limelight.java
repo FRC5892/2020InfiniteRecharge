@@ -27,7 +27,7 @@ public class Limelight extends SubsystemBase {
     }
 
     public boolean targetValid() {
-        return tv.getDouble(0) > 1;
+        return tv.getDouble(0) > 0;
     }
 
     public double xOffset() {

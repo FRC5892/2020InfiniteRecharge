@@ -15,7 +15,9 @@ public class AimAndShoot extends BuiltParallel {
             p.add(new VisionAlignCommand(container.drive, container.limelight));
             p.add(new SoloJoystickIntake(container.intake));
             p.add(new BuiltSequence(s -> {
-                s.add(new ResetHood(container.shooter));
+                if (hoodSetpoint >= 0) {
+                    s.add(new ResetHood(container.shooter));
+                }
                 s.add(new RunShooter(container.accumulator, container.shooter, flywheelSetpoint, hoodSetpoint,
                         flywheelThreshold));
             }));

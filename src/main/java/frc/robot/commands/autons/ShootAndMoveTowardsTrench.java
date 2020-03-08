@@ -13,7 +13,7 @@ import frc.robot.subsystems.shooter.SuperHoodReset;
 public class ShootAndMoveTowardsTrench extends BuiltSequence {
     public ShootAndMoveTowardsTrench(RobotContainer container) {
         super(s -> {
-            s.add(new AimAndShoot(container, 4000, Constants.HOOD_SETPOINT_INITIATION_LINE, 30).withTimeout(7));
+            s.add(new AimAndShoot(container, 4000, Constants.HOOD_SETPOINT_DONT_MOVE, 26).withTimeout(7));
             s.add(new BuiltParallel(p -> {
                 p.add(new SuperHoodReset(container.shooter));
                 p.add(new BuiltSequence(s1 -> {

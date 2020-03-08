@@ -4,6 +4,7 @@ import com.revrobotics.CANSparkMax;
 
 import edu.wpi.first.networktables.EntryListenerFlags;
 import edu.wpi.first.wpilibj.Notifier;
+import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 
 import java.io.BufferedReader;
@@ -62,8 +63,10 @@ public class SparkMaxUtils {
             controller.setFF(evt.value.getDouble());
         }, EntryListenerFlags.kUpdate);
 
-        var inputEntry = tab.add("Input", 0).withPosition(1, 0).getEntry();
-        var outputEntry = tab.add("Output", 0).withPosition(1, 1).getEntry();
+        var inputEntry = tab.add("Input", 0).withPosition(1, 0).withSize(6, 2).withWidget(BuiltInWidgets.kGraph)
+                .getEntry();
+        var outputEntry = tab.add("Output", 0).withPosition(1, 2).withSize(6, 2).withWidget(BuiltInWidgets.kGraph)
+                .getEntry();
         new Notifier(() -> {
             inputEntry.setDouble(spark.getEncoder().getVelocity());
             outputEntry.setDouble(spark.getAppliedOutput());
