@@ -17,7 +17,7 @@ import frc.robot.RobotContainer;
 import frc.robot.RobotMap;
 
 public class ShooterSubsystem extends SubsystemBase {
-    private static final boolean TUNING_MODE = true;
+    private static final boolean TUNING_MODE = false;
     private static final double HOOD_THRESHOLD = 2;
 
     public final RobotContainer container;
@@ -73,7 +73,13 @@ public class ShooterSubsystem extends SubsystemBase {
     }
 
     public void setHoodSpeed(double speed) {
-        hood.set(speed);
+        if (speed < 0 && hoodAtBaseline()) {
+            hood.stopMotor();
+        } else if (speed > 0 && hoodAtExtent()) {
+            hood.stopMotor();
+        } else {
+            hood.set(speed);
+        }
         hoodController.reset();
         hoodControllerEnabled = false;
     }
@@ -106,8 +112,8 @@ public class ShooterSubsystem extends SubsystemBase {
     }
 
     public boolean hoodAtSetpoint() {
-        return hoodControllerEnabled && (getHoodCounter() > (hoodController.getSetpoint() - HOOD_THRESHOLD)
-                || hoodAtExtent() || !container.hoodZeroing());
+        return !hoodControllerEnabled || getHoodCounter() > (hoodController.getSetpoint() - HOOD_THRESHOLD)
+                || hoodAtExtent() || !container.hoodZeroing();
     }
 
     @Override

@@ -4,10 +4,14 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.accumulator.AccumulatorSubsystem;
 
 public class RunShooter extends CommandBase {
+    private static final double MANUAL_HOOD_SPEED = 0.1;
+
+
     private final AccumulatorSubsystem accumulator;
     private final ShooterSubsystem shooter;
 
     private final double flywheelSetpoint, hoodSetpoint, flywheelThreshold;
+    private boolean hoodOverride;
 
     public RunShooter(AccumulatorSubsystem accumulator, ShooterSubsystem shooter, double flywheelSetpoint,
             double hoodSetpoint, double flywheelThreshold) {
@@ -23,6 +27,7 @@ public class RunShooter extends CommandBase {
     public void initialize() {
         shooter.setFlywheelSetpoint(flywheelSetpoint);
         shooter.setHoodSetpoint(hoodSetpoint);
+        hoodOverride = false;
     }
 
     @Override
@@ -34,6 +39,16 @@ public class RunShooter extends CommandBase {
             accumulator.set(0.5);
         } else {
             accumulator.set(0);
+        }
+
+        if (shooter.container.copilot.getRawButton(1)) {
+            shooter.setHoodSpeed(-MANUAL_HOOD_SPEED);
+            hoodOverride = true;
+        } else if (shooter.container.copilot.getRawButton(4)) {
+            shooter.setHoodSpeed(MANUAL_HOOD_SPEED);
+            hoodOverride = true;
+        } else if (hoodOverride) {
+            shooter.stopHood();
         }
     }
 

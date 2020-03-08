@@ -33,8 +33,11 @@ public class DriveSubsystem extends SubsystemBase {
     // See https://www.desmos.com/calculator/snimyobj8h for why scaleFactor gets its
     // own argument
     public void arcadeDrive(double xSpeed, double zRotation, double scaleFactor) {
-        drive.arcadeDrive(MathUtils.signedSquare(xSpeed) * scaleFactor, MathUtils.signedSquare(zRotation) * scaleFactor,
-                false);
+        arcadeDrive(xSpeed, zRotation, scaleFactor, scaleFactor);
+    }
+
+    public void arcadeDrive(double xSpeed, double zRotation, double xScale, double zScale) {
+        drive.arcadeDrive(MathUtils.signedSquare(xSpeed) * xScale, MathUtils.signedSquare(zRotation) * zScale, false);
     }
 
     public void tankDrive(double left, double right) {
