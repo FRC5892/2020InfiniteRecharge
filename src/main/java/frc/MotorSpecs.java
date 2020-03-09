@@ -138,6 +138,7 @@ public class MotorSpecs {
         }
     }
 
+    @SuppressWarnings("resource")
     public CANSparkMax makeSparkMax() {
         if (type.equals("SparkMax")) {
             return setInverted(sparkMaxSetup(new CANSparkMax(port, MotorType.kBrushless), mode), inverted);
